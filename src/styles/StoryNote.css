@@ -1,0 +1,50 @@
+.story-note {
+    background-color: #ffffa5;
+    padding: 20px;
+    min-width: 200px;
+    max-width: 300px;
+    min-height: 120px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.15);
+    font-family: 'Caveat', cursive;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    position: relative;
+    transform-origin: center;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.story-note:hover {
+    transform: translateY(-5px) rotate(0deg) !important;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.story-note::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 35px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    clip-path: polygon(50% 0%, 85% 100%, 15% 100%);
+}
+
+.story-note p {
+    margin: 0;
+    text-align: left;
+}
+
+/* Pin effect */
+.story-note::after {
+    content: '📌';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}

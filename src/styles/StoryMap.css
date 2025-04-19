@@ -1,0 +1,322 @@
+.story-map {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    gap: 30px;
+}
+
+.map-container-leaflet {
+    position: relative;
+    height: 350px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.map-container-leaflet:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Customize Leaflet popup */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    font-family: inherit;
+}
+
+.leaflet-popup-content strong {
+    display: block;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: white;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+}
+
+.leaflet-popup-content br {
+    display: none;
+}
+
+.leaflet-popup-content {
+    padding: 10px 15px;
+}
+
+/* Hide original map container */
+.map-container {
+    display: none;
+}
+
+/* Animation for map markers */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.map-marker {
+    position: absolute;
+    background: linear-gradient(to right, #ff4757, #ff6b81);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.map-marker.active {
+    background: linear-gradient(to right, #2ed573, #7bed9f);
+    transform: translate(-50%, -50%) scale(1.2);
+    z-index: 2;
+    animation: pulse 2s infinite;
+}
+
+.character {
+    position: absolute;
+    font-size: 30px;
+    transform: translate(-50%, -50%);
+    transition: all 0.8s ease;
+    z-index: 3;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Journey progress bar */
+.journey-progress {
+    background-color: #f1f2f6;
+    height: 6px;
+    border-radius: 3px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-indicator {
+    height: 100%;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    transition: width 0.5s ease;
+}
+
+.storymap-container {
+    position: relative;
+}
+
+.storymap-nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 900;
+    backdrop-filter: blur(5px);
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    padding: 8px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #57606f;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.nav-item:hover {
+    color: #2c3e50;
+}
+
+.nav-item.active {
+    color: #2c3e50;
+    border-bottom: 2px solid #4ca1af;
+}
+
+.storymap-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 120px;
+    /* Space for fixed header and nav */
+}
+
+.section-cover {
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.section-cover-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    padding: 40px;
+    padding-top: 100px;
+}
+
+.section-cover-overlay h2 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.section-cover-overlay p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+.section-content {
+    display: flex;
+    padding: 0 40px 80px;
+    gap: 40px;
+}
+
+.content-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.map-container-leaflet {
+    height: 350px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ethical-analysis {
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.ethical-analysis h3 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.ethical-analysis h3:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+}
+
+.ethical-analysis p {
+    color: #57606f;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+}
+
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.gallery-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    padding-bottom: 0;
+}
+
+.gallery-container h3 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.gallery-container h3:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+}
+
+@media (max-width: 992px) {
+    .section-content {
+        flex-direction: column;
+    }
+
+    .section-cover-overlay h2 {
+        font-size: 2.5rem;
+    }
+
+    .section-cover {
+        height: 50vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .storymap-nav {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 10px;
+    }
+
+    .section-content {
+        padding: 0 20px 60px;
+    }
+
+    .section-cover-overlay {
+        padding: 30px;
+    }
+
+    .section-cover-overlay h2 {
+        font-size: 2rem;
+    }
+}

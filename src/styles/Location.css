@@ -1,0 +1,93 @@
+.location {
+    background-color: white;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.location.zoomed {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.location-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: white;
+}
+
+.location-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.location-header button {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+}
+
+.location-header button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.location-description {
+    color: #57606f;
+    margin: 0;
+    padding: 20px 30px;
+    font-size: 1.1rem;
+    font-style: italic;
+    border-bottom: 1px solid #f1f2f6;
+}
+
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 30px;
+    background-color: #f8f9fa;
+    justify-content: center;
+}
+
+.location-analysis {
+    background-color: white;
+    padding: 30px;
+}
+
+.location-analysis h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.6rem;
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.location-analysis h3:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+}
+
+.location-analysis p {
+    color: #57606f;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+}
