@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "https://Ajodo-Godson.github.io/ethics-tour/static/css/main.f15ca8b3.css",
+    "main.js": "https://Ajodo-Godson.github.io/ethics-tour/static/js/main.c843dc91.js",
+    "static/js/453.c010ce33.chunk.js": "https://Ajodo-Godson.github.io/ethics-tour/static/js/453.c010ce33.chunk.js",
+    "index.html": "https://Ajodo-Godson.github.io/ethics-tour/index.html",
+    "main.f15ca8b3.css.map": "https://Ajodo-Godson.github.io/ethics-tour/static/css/main.f15ca8b3.css.map",
+    "main.c843dc91.js.map": "https://Ajodo-Godson.github.io/ethics-tour/static/js/main.c843dc91.js.map",
+    "453.c010ce33.chunk.js.map": "https://Ajodo-Godson.github.io/ethics-tour/static/js/453.c010ce33.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f15ca8b3.css",
+    "static/js/main.c843dc91.js"
+  ]
+}
