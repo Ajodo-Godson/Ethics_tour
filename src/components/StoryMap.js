@@ -54,9 +54,12 @@ const StoryMap = () => {
             ],
             analysis: <>
                 <p>In the Tenderloin district, a neighborhood known for its concentration of unhoused individuals and visible substance use, we confront a difficult question: Are we still morally obligated to give aid if it might enable harm?</p>
-                <p>Kant would assert that you still have the imperfect duty to give. The moral rightness of an action depends on whether it could be universalized to be a moral law, independently of its predicted effects. Concerns that "aid might enable harm" are subjective and lack the universality needed for a moral duty.</p>
-                <p>An utilitarian approach considers whether the aid likely improves or worsens overall well-being. If giving is likely to result in harmful outcomes such as fostering addiction, it could decrease overall well-being and might be considered morally wrong.</p>
-                <p>Buddhism suggests that giving (dana) generates good merit even if the recipient misuses the aid. However, Buddhist ethics also value wisdom. If giving directly enables harm, a more discerning act of compassion might be needed.</p>
+
+                <p>Kant would assert that you still have the imperfect duty to give. As Stohr (2011) explains, the moral rightness of an action depends on whether it could be universalized to be a moral law, independently of its predicted effects. Concerns that "aid might enable harm" are subjective and lack the universality needed for a moral duty.</p>
+
+                <p>An utilitarian approach considers whether the aid likely improves or worsens overall well-being. If giving is likely to result in harmful outcomes such as fostering addiction, it could decrease overall well-being and might be considered morally wrong, as described in Beauchamp's (2008) analysis of beneficence.</p>
+
+                <p>Buddhist texts on giving (dāna) from the Aṅguttaranikāya suggest that giving generates good merit even if the recipient misuses the aid. However, Buddhist ethics also value wisdom. If giving directly enables harm, a more discerning act of compassion might be needed.</p>
             </>
         },
         {
@@ -307,9 +310,19 @@ const StoryMap = () => {
             <div className="storymap-references">
                 <h3>References & Further Reading</h3>
                 <ul>
-                    <li>Stohr, K. (2011). "Kantian Beneficence and the Problem of Obligatory Aid." Journal of Moral Philosophy, 8(1), 45-67.</li>
-                    <li>Haushofer, J., & Shapiro, J. (2016). "The Short-Term Impact of Unconditional Cash Transfers to the Poor: Experimental Evidence from Kenya." The Quarterly Journal of Economics, 131(4), 1973-2042.</li>
-                    <li>MacAskill, W. (2019). "Effective Altruism: Introduction." Essays in Philosophy, 20(1), 2.</li>
+                    <li>Beauchamp, T. (2008). The Principle of Beneficence in Applied Ethics. <em>Stanford Encyclopedia of Philosophy</em>. <a href="https://plato.stanford.edu/entries/principle-beneficence/" target="_blank" rel="noopener noreferrer">Link</a></li>
+
+                    <li>Haushofer, J., & Shapiro, J. (2016). The Short-term Impact of Unconditional Cash Transfers to the Poor: Experimental Evidence from Kenya. <em>The Quarterly Journal of Economics, 131</em>(4), 1973–2042.</li>
+
+                    <li>Macaskill, W. (2019). <em>Doing Good Better: How Effective Altruism Can Help You Help Others, Do Work That Matters, and Make Smarter Choices About Giving Back</em>. Avery.</li>
+
+                    <li>Saunders-Hastings, E. (2019). Benevolent Giving and the Problem of Paternalism. In H. Greaves & T. Pummer (Eds.), <em>Effective Altruism: Philosophical Issues</em> (pp. 115–136). Oxford University Press.</li>
+
+                    <li>Stohr, K. (2011). Kantian Beneficence and the Problem of Obligatory Aid. <em>Journal of Moral Philosophy, 8</em>(1), 45–67.</li>
+
+                    <li>Thomas E. Hill. (1980). Humanity as an End in Itself. <em>Ethics, 91</em>(1), 84.</li>
+
+                    <li>Suttacentral: "A Gift With Six Factors" & "Dānavagga (The Chapter on Giving)" from <em>Aṅguttaranikāya</em> (Numbered Discourses with the Buddha). <a href="https://suttacentral.net/an6.37/en/sujato" target="_blank" rel="noopener noreferrer">Link</a></li>
                 </ul>
             </div>
         </div>
