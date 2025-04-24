@@ -1,4 +1,4 @@
-name: Deploy React App to GitHub Pages
+name: Deploy Ethics Tour App to GitHub Pages
 
 on:
   push:
@@ -18,25 +18,45 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Create .nojekyll file
         run: touch public/.nojekyll
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm ci
+          # Install specific dependencies if needed
+          npm install leaflet react-leaflet
+          npm install @mdx-js/loader @mdx-js/react
+        
+      - name: Install Leaflet Dependencies
+        run: |
+          # Ensure Leaflet assets are available
+          mkdir -p public/leaflet
+          cp -r node_modules/leaflet/dist/images public/leaflet/
 
       - name: Build React App
         run: npm run build
         env:
           PUBLIC_URL: /${{ github.event.repository.name }}
+          CI: false  # Prevents treating warnings as errors
+          REACT_APP_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN || '' }}
 
+      - name: Validate Build Output
+        run: |
+          if [ ! -d "build" ]; then
+            echo "Build directory not found!"
+            exit 1
+          fi
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
