@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -26,8 +26,11 @@ const StoryMap = () => {
     const [activeLocation, setActiveLocation] = useState(0);
     const [geoJsonData, setGeoJsonData] = useState(null);
     const [mapRef, setMapRef] = useState(null);
-    const [isFullMapView, setIsFullMapView] = useState(false);
     const [expandedNotes, setExpandedNotes] = useState([]);
+
+    // Add refs for each location section
+    const locationRefs = useRef([]);
+    const observerRef = useRef(null);
 
     // Define tour locations
     const locations = useMemo(() => [
@@ -37,7 +40,7 @@ const StoryMap = () => {
             description: 'Ethical dilemmas when giving might enable harm',
             centralQuestion: 'Are we morally obligated to give if our aid might enable harmful behaviors?',
             mapCoordinates: [37.783, -122.417],
-            color: '#ff6b6b',  // Distinctive color for each location
+            color: '#ff6b6b',
             images: [
                 './assets/tenderloin/Image1.webp',
                 './assets/tenderloin/Image2.webp',
@@ -141,6 +144,52 @@ const StoryMap = () => {
         }
     ], []);
 
+    // Set up intersection observer to track which section is in view
+    useEffect(() => {
+        if (locationRefs.current.length === 0) return;
+
+        // Cleanup previous observer
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+        }
+
+        // Create new observer
+        observerRef.current = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const locationId = parseInt(entry.target.dataset.locationId, 10);
+                        setActiveLocation(locationId);
+
+                        // Update map position
+                        if (mapRef) {
+                            mapRef.flyTo(
+                                locations[locationId].mapCoordinates,
+                                13,
+                                { animate: true, duration: 1.5 }
+                            );
+                        }
+                    }
+                });
+            },
+            {
+                threshold: 0.3, // Trigger when 30% of the element is visible
+                rootMargin: '-10% 0px -10% 0px' // Adjust this for better triggering
+            }
+        );
+
+        // Observe all location sections
+        locationRefs.current.forEach(ref => {
+            if (ref) observerRef.current.observe(ref);
+        });
+
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+            }
+        };
+    }, [locations, mapRef]);
+
     // Load GeoJSON data for map
     useEffect(() => {
         fetch(`${process.env.PUBLIC_URL}/assets/map/SanFrancisco.Neighborhoods.json`)
@@ -150,17 +199,6 @@ const StoryMap = () => {
             })
             .catch(error => console.error('Error loading GeoJSON data:', error));
     }, []);
-
-    // Update map when active location changes
-    useEffect(() => {
-        if (mapRef && !isFullMapView) {
-            mapRef.flyTo(
-                locations[activeLocation].mapCoordinates,
-                13,
-                { animate: true, duration: 1.5 }
-            );
-        }
-    }, [activeLocation, locations, mapRef, isFullMapView]);
 
     // Style function for GeoJSON
     const geoJsonStyle = (feature) => {
@@ -175,15 +213,15 @@ const StoryMap = () => {
             ));
 
         return {
-            fillColor: isHighlighted ? locations[activeLocation].color : '#dfe6e9',
-            weight: isHighlighted ? 3 : 1,
+            fillColor: isHighlighted ? locations[activeLocation].color : '#f1f2f6',
+            weight: isHighlighted ? 2 : 1,
             opacity: 1,
-            color: 'white',
-            dashArray: isHighlighted ? '0' : '3',
-            fillOpacity: isHighlighted ? 0.7 : 0.3
+            color: isHighlighted ? locations[activeLocation].color : '#dfe4ea',
+            fillOpacity: isHighlighted ? 0.5 : 0.2
         };
     };
 
+    // Helper function to toggle note expansion
     const toggleNoteExpansion = (noteId) => {
         setExpandedNotes(prev =>
             prev.includes(noteId)
@@ -192,198 +230,177 @@ const StoryMap = () => {
         );
     };
 
-    const toggleMapView = () => {
-        setIsFullMapView(!isFullMapView);
+    // Helper function to get public path URL
+    const getPublicPath = (path) => `${process.env.PUBLIC_URL}/${path}`;
 
-        // If returning from full map view, ensure we re-center on the active location
-        if (isFullMapView && mapRef) {
-            setTimeout(() => {
-                mapRef.invalidateSize();
-                mapRef.flyTo(
-                    locations[activeLocation].mapCoordinates,
-                    13,
-                    { animate: true }
-                );
-            }, 100);
+    // Scroll to a specific location section
+    const scrollToLocation = (locationId) => {
+        if (locationRefs.current[locationId]) {
+            locationRefs.current[locationId].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
     };
 
-    const getPublicPath = (path) => {
-        const cleanPath = path.startsWith('/') ? path.substring(1) : path;
-        return `${process.env.PUBLIC_URL}/${cleanPath}`;
-    };
-
     return (
-        <div className="improved-storymap-container">
-            {/* Tour Navigation */}
-            <header className="tour-header">
+        <div className="improved-storymap-container clean-design">
+            {/* Tour Header */}
+            <div className="tour-header">
                 <h1>Ethics Tour: Street-Level Giving in San Francisco</h1>
-                <p>Navigate through ethical frameworks for giving to those in need</p>
-            </header>
+                <p>Examining ethical dilemmas through Kantian, Utilitarian, and Buddhist perspectives</p>
+            </div>
 
-            <div className="location-progress">
-                {locations.map((location, index) => (
+            {/* Location Navigation Dots */}
+            <div className="location-progress sticky-nav">
+                {locations.map(location => (
                     <button
                         key={location.id}
-                        className={`location-dot ${index === activeLocation ? 'active' : ''} ${index < activeLocation ? 'visited' : ''}`}
-                        onClick={() => setActiveLocation(index)}
-                        style={{
-                            '--location-color': location.color,
-                            '--dot-size': index === activeLocation ? '1.5rem' : '1rem'
-                        }}
+                        className={`location-dot ${activeLocation === location.id ? 'active' : ''}`}
+                        style={{ '--location-color': location.color }}
+                        onClick={() => scrollToLocation(location.id)}
+                        aria-label={`Go to ${location.name}`}
                     >
                         <span className="location-label">{location.name}</span>
                     </button>
                 ))}
             </div>
 
-            <div className={`main-content ${isFullMapView ? 'map-expanded' : ''}`}>
-                {/* Map Column */}
-                <div className="map-column">
-                    <div className="map-container">
-                        <button className="map-toggle" onClick={toggleMapView}>
-                            {isFullMapView ? 'Return to Tour' : 'Expand Map'}
-                        </button>
-
-                        {!geoJsonData ? (
-                            <LoadingSpinner />
-                        ) : (
-                            <MapContainer
-                                center={locations[activeLocation].mapCoordinates}
-                                zoom={isFullMapView ? 12 : 13}
-                                style={{ height: '100%', width: '100%' }}
-                                whenCreated={setMapRef}
-                                zoomControl={true}
-                                attributionControl={false}
-                            >
-                                <TileLayer
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                    attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-                                />
-                                <GeoJSON
-                                    data={geoJsonData}
-                                    style={geoJsonStyle}
-                                />
-                                {locations.map(location => (
-                                    <Marker
-                                        key={location.id}
-                                        position={location.mapCoordinates}
-                                        icon={locationIcon}
-                                        eventHandlers={{
-                                            click: () => !isFullMapView && setActiveLocation(location.id)
-                                        }}
-                                    >
-                                        <Popup>
-                                            <strong>{location.name}</strong><br />
-                                            {location.description}
-                                        </Popup>
-                                    </Marker>
-                                ))}
-                            </MapContainer>
-                        )}
-                    </div>
-
-                    {!isFullMapView && (
-                        <div className="location-info">
-                            <div className="location-header" style={{ backgroundColor: locations[activeLocation].color }}>
-                                <h2>{locations[activeLocation].name}</h2>
-                                <p>{locations[activeLocation].description}</p>
-                            </div>
-
-                            <div className="gallery-wrapper">
-                                <ImageGallery
-                                    images={locations[activeLocation].images.map(getPublicPath)}
-                                    location={locations[activeLocation].name}
-                                />
-                            </div>
-                        </div>
+            {/* Main Content - Clean Layout */}
+            <div className="clean-layout">
+                {/* Fixed Map Container */}
+                <div className="fixed-map">
+                    {!geoJsonData ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <MapContainer
+                            center={locations[activeLocation].mapCoordinates}
+                            zoom={13}
+                            style={{ height: '100%', width: '100%' }}
+                            whenCreated={setMapRef}
+                            zoomControl={true}
+                            attributionControl={false}
+                        >
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+                            />
+                            <GeoJSON
+                                data={geoJsonData}
+                                style={geoJsonStyle}
+                            />
+                            {locations.map(location => (
+                                <Marker
+                                    key={location.id}
+                                    position={location.mapCoordinates}
+                                    icon={locationIcon}
+                                    eventHandlers={{
+                                        click: () => scrollToLocation(location.id)
+                                    }}
+                                >
+                                    <Popup>
+                                        <strong>{location.name}</strong><br />
+                                        {location.description}
+                                    </Popup>
+                                </Marker>
+                            ))}
+                        </MapContainer>
                     )}
                 </div>
 
-                {/* Content Column - Only shown when map is not expanded */}
-                {!isFullMapView && (
-                    <div className="content-column">
-                        {/* New central question section */}
-                        <div className="central-question">
-                            <h3>Key Ethical Question</h3>
-                            <div className="question-box">
-                                <p>{locations[activeLocation].centralQuestion}</p>
+                {/* Location Sections */}
+                <div className="scrollable-locations">
+                    {locations.map((location, index) => (
+                        <div
+                            key={location.id}
+                            ref={el => locationRefs.current[index] = el}
+                            data-location-id={location.id}
+                            className="location-section"
+                            style={{ '--location-color': location.color }}
+                        >
+                            <div className="location-header">
+                                <h2>{location.name}</h2>
+                                <p>{location.description}</p>
                             </div>
-                        </div>
 
-                        <div className="ethical-frameworks">
-                            <h3>Ethical Perspectives</h3>
-
-                            <div className="framework-tabs">
-                                <div className="framework kant">
-                                    <h4>{locations[activeLocation].analysis.kantian.title}</h4>
-                                    <p>{locations[activeLocation].analysis.kantian.text}</p>
+                            <div className="location-content">
+                                <div className="gallery-wrapper">
+                                    <ImageGallery
+                                        images={location.images.map(getPublicPath)}
+                                        location={location.name}
+                                    />
                                 </div>
 
-                                <div className="framework util">
-                                    <h4>{locations[activeLocation].analysis.utilitarian.title}</h4>
-                                    <p>{locations[activeLocation].analysis.utilitarian.text}</p>
-                                </div>
-
-                                <div className="framework buddha">
-                                    <h4>{locations[activeLocation].analysis.buddhist.title}</h4>
-                                    <p>{locations[activeLocation].analysis.buddhist.text}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="reflection-notes">
-                            <h3>Additional Ethical Considerations</h3>
-                            <div className="notes-grid">
-                                {locations[activeLocation].notes.map(note => (
-                                    <div
-                                        key={note.id}
-                                        className={`reflection-note ${expandedNotes.includes(note.id) ? 'expanded' : ''}`}
-                                        onClick={() => toggleNoteExpansion(note.id)}
-                                    >
-                                        <p>{note.content}</p>
+                                <div className="central-question">
+                                    <h3>Key Ethical Question</h3>
+                                    <div className="question-box">
+                                        <p>{location.centralQuestion}</p>
                                     </div>
-                                ))}
+                                </div>
+
+                                <div className="ethical-frameworks">
+                                    <h3>Ethical Perspectives</h3>
+                                    <div className="framework-tabs">
+                                        <div className="framework kant">
+                                            <h4>{location.analysis.kantian.title}</h4>
+                                            <p>{location.analysis.kantian.text}</p>
+                                        </div>
+
+                                        <div className="framework util">
+                                            <h4>{location.analysis.utilitarian.title}</h4>
+                                            <p>{location.analysis.utilitarian.text}</p>
+                                        </div>
+
+                                        <div className="framework buddha">
+                                            <h4>{location.analysis.buddhist.title}</h4>
+                                            <p>{location.analysis.buddhist.text}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="reflection-notes">
+                                    <h3>Additional Ethical Considerations</h3>
+                                    <div className="notes-grid">
+                                        {location.notes.map(note => (
+                                            <div
+                                                key={note.id}
+                                                className={`reflection-note ${expandedNotes.includes(note.id) ? 'expanded' : ''}`}
+                                                onClick={() => toggleNoteExpansion(note.id)}
+                                            >
+                                                <p>{note.content}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {index < locations.length - 1 && (
+                                    <div className="scroll-indicator">
+                                        <div className="scroll-arrow"></div>
+                                        <p>Scroll to continue</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
+                    ))}
 
-                        <div className="tour-navigation">
-                            <button
-                                className="nav-button prev"
-                                disabled={activeLocation === 0}
-                                onClick={() => setActiveLocation(prev => Math.max(0, prev - 1))}
-                            >
-                                Previous Location
-                            </button>
+                    {/* References Section */}
+                    <div className="references-section">
+                        <button className="references-toggle" onClick={() => document.querySelector('.references-content').classList.toggle('expanded')}>
+                            References & Sources
+                        </button>
 
-                            <button
-                                className="nav-button next"
-                                disabled={activeLocation === locations.length - 1}
-                                onClick={() => setActiveLocation(prev => Math.min(locations.length - 1, prev + 1))}
-                            >
-                                Next Location
-                            </button>
+                        <div className="references-content">
+                            <ul>
+                                <li>Beauchamp, T. (2008). The Principle of Beneficence in Applied Ethics. <em>Stanford Encyclopedia of Philosophy</em>. <a href="https://plato.stanford.edu/entries/principle-beneficence/" target="_blank" rel="noopener noreferrer">Link</a></li>
+                                <li>Haushofer, J., & Shapiro, J. (2016). The Short-term Impact of Unconditional Cash Transfers to the Poor: Experimental Evidence from Kenya. <em>The Quarterly Journal of Economics, 131</em>(4), 1973–2042.</li>
+                                <li>Macaskill, W. (2019). <em>Doing Good Better: How Effective Altruism Can Help You Help Others, Do Work That Matters, and Make Smarter Choices About Giving Back</em>. Avery.</li>
+                                <li>Saunders-Hastings, E. (2019). Benevolent Giving and the Problem of Paternalism. In H. Greaves & T. Pummer (Eds.), <em>Effective Altruism: Philosophical Issues</em> (pp. 115–136). Oxford University Press.</li>
+                                <li>Stohr, K. (2011). Kantian Beneficence and the Problem of Obligatory Aid. <em>Journal of Moral Philosophy, 8</em>(1), 45–67.</li>
+                                <li>Thomas E. Hill. (1980). Humanity as an End in Itself. <em>Ethics, 91</em>(1), 84.</li>
+                                <li>Suttacentral: "A Gift With Six Factors" & "Dānavagga (The Chapter on Giving)" from <em>Aṅguttaranikāya</em> (Numbered Discourses with the Buddha). <a href="https://suttacentral.net/an6.37/en/sujato" target="_blank" rel="noopener noreferrer">Link</a></li>
+                            </ul>
                         </div>
                     </div>
-                )}
-            </div>
-
-            {/* References Section */}
-            <div className="references-section">
-                <button className="references-toggle" onClick={() => document.querySelector('.references-content').classList.toggle('expanded')}>
-                    References & Sources
-                </button>
-
-                <div className="references-content">
-                    <ul>
-                        <li>Beauchamp, T. (2008). The Principle of Beneficence in Applied Ethics. <em>Stanford Encyclopedia of Philosophy</em>. <a href="https://plato.stanford.edu/entries/principle-beneficence/" target="_blank" rel="noopener noreferrer">Link</a></li>
-                        <li>Haushofer, J., & Shapiro, J. (2016). The Short-term Impact of Unconditional Cash Transfers to the Poor: Experimental Evidence from Kenya. <em>The Quarterly Journal of Economics, 131</em>(4), 1973–2042.</li>
-                        <li>Macaskill, W. (2019). <em>Doing Good Better: How Effective Altruism Can Help You Help Others, Do Work That Matters, and Make Smarter Choices About Giving Back</em>. Avery.</li>
-                        <li>Saunders-Hastings, E. (2019). Benevolent Giving and the Problem of Paternalism. In H. Greaves & T. Pummer (Eds.), <em>Effective Altruism: Philosophical Issues</em> (pp. 115–136). Oxford University Press.</li>
-                        <li>Stohr, K. (2011). Kantian Beneficence and the Problem of Obligatory Aid. <em>Journal of Moral Philosophy, 8</em>(1), 45–67.</li>
-                        <li>Thomas E. Hill. (1980). Humanity as an End in Itself. <em>Ethics, 91</em>(1), 84.</li>
-                        <li>Suttacentral: "A Gift With Six Factors" & "Dānavagga (The Chapter on Giving)" from <em>Aṅguttaranikāya</em> (Numbered Discourses with the Buddha). <a href="https://suttacentral.net/an6.37/en/sujato" target="_blank" rel="noopener noreferrer">Link</a></li>
-                    </ul>
                 </div>
             </div>
         </div>
