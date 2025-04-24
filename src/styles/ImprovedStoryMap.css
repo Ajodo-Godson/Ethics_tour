@@ -190,6 +190,34 @@
     gap: 2rem;
 }
 
+/* Central question styling */
+.central-question {
+    margin-bottom: 1.5rem;
+}
+
+.central-question h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #2d3436;
+    text-align: left;
+}
+
+.question-box {
+    background-color: #dfe6e9;
+    border-left: 5px solid #2d3436;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.question-box p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 0;
+    color: #2d3436;
+}
+
 /* Ethical frameworks */
 .ethical-frameworks {
     padding: 2rem;

@@ -35,6 +35,7 @@ const StoryMap = () => {
             id: 0,
             name: 'Tenderloin',
             description: 'Ethical dilemmas when giving might enable harm',
+            centralQuestion: 'Are we morally obligated to give if our aid might enable harmful behaviors?',
             mapCoordinates: [37.783, -122.417],
             color: '#ff6b6b',  // Distinctive color for each location
             images: [
@@ -71,6 +72,7 @@ const StoryMap = () => {
             id: 1,
             name: 'Grocery Stores',
             description: 'In-kind aid vs. monetary assistance',
+            centralQuestion: 'Should we only give in-kind aid, such as food, water or health kits, which cannot be misused?',
             color: '#48dbfb',
             mapCoordinates: [37.775, -122.419],
             images: [
@@ -103,6 +105,7 @@ const StoryMap = () => {
             id: 2,
             name: 'Civic Plaza',
             description: 'Public giving & institutional responsibility',
+            centralQuestion: 'Are we shifting the burden of addressing homelessness and poverty from public institutions onto individual donors, thereby normalizing systemic failure?',
             color: '#1dd1a1',
             mapCoordinates: [37.779, -122.416],
             images: [
@@ -300,6 +303,14 @@ const StoryMap = () => {
                 {/* Content Column - Only shown when map is not expanded */}
                 {!isFullMapView && (
                     <div className="content-column">
+                        {/* New central question section */}
+                        <div className="central-question">
+                            <h3>Key Ethical Question</h3>
+                            <div className="question-box">
+                                <p>{locations[activeLocation].centralQuestion}</p>
+                            </div>
+                        </div>
+
                         <div className="ethical-frameworks">
                             <h3>Ethical Perspectives</h3>
 
@@ -322,7 +333,7 @@ const StoryMap = () => {
                         </div>
 
                         <div className="reflection-notes">
-                            <h3>Key Ethical Questions</h3>
+                            <h3>Additional Ethical Considerations</h3>
                             <div className="notes-grid">
                                 {locations[activeLocation].notes.map(note => (
                                     <div
