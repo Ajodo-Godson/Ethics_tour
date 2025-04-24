@@ -1,7 +1,14 @@
 import React from 'react';
 import ImageGallery from './ImageGallery';
+import MDXLocation from './MDXLocation';
 
-const LocationSection = ({ location, expandedNotes, toggleNoteExpansion, getPublicPath }) => {
+const LocationSection = ({ location, expandedNotes, toggleNoteExpansion, getPublicPath, useMDX = true }) => {
+    // If MDX is enabled and we have an MDX file for this location, use it
+    if (useMDX) {
+        return <MDXLocation location={location} />;
+    }
+
+    // Otherwise, fall back to the original implementation
     return (
         <div className="location-content">
             <div className="gallery-wrapper">
