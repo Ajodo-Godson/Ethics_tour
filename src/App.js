@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import './styles/MDX.css';
+import './styles/Layout.css';
+import './styles/StoryMapModern.css'; // New styles for ArcGIS-inspired design
 import StoryMap from './components/StoryMap';
 import MDXProviderWrapper from './components/MDXProvider';
-// Remove this import
-// import coverImage from './assets/civic_plaza/Image1.jpg';  // This path doesn't exist
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true);
+
   const shareProject = () => {
     if (navigator.share) {
       navigator.share({
@@ -24,26 +26,56 @@ function App() {
     }
   };
 
+  const startJourney = () => {
+    setShowIntro(false);
+    setTimeout(() => {
+      const element = document.getElementById('storymap-content');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   return (
     <MDXProviderWrapper>
-      <div className="App">
-        <header className="storymap-header">
-          <div className="header-logo">Ethics Tour</div>
-          <div className="header-controls">
-            <button className="header-button" onClick={shareProject}>Share</button>
+      <div className="App storymap-modern">
+        {showIntro ? (
+          <div className="storymap-intro">
+            <div className="intro-overlay"></div>
+            <div className="storymap-cover" style={{
+              backgroundImage: `url(${process.env.PUBLIC_URL}/assets/civic_plaza/Image1.jpg)`
+            }}>
+              <div className="cover-content">
+                <h1>Ethics Tour</h1>
+                <h2>Resources for the Needy in San Francisco</h2>
+                <p>A journey exploring ethical perspectives on giving to strangers in need</p>
+                <button className="start-journey-btn" onClick={startJourney}>
+                  Begin the Tour ↓
+                </button>
+              </div>
+            </div>
           </div>
-        </header>
+        ) : (
+          <>
+            <header className="storymap-header">
+              <div className="header-logo">Ethics Tour</div>
+              <div className="header-progress">
+                <div className="progress-track">
+                  <div className="progress-indicator" style={{ width: '0%' }}></div>
+                </div>
+              </div>
+              <div className="header-controls">
+                <button className="header-button" onClick={shareProject}>
+                  Share
+                </button>
+              </div>
+            </header>
 
-        {/* Use the public folder path */}
-        <div className="storymap-cover" style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${process.env.PUBLIC_URL}/assets/civic_plaza/Image1.jpg)`
-        }}>
-          <h1>Ethics Tour: Resources for the Needy</h1>
-          <p>A journey exploring ethical perspectives on giving to strangers in need</p>
-          <div className="scroll-indicator">Scroll to begin</div>
-        </div>
-
-        <StoryMap />
+            <div id="storymap-content">
+              <StoryMap />
+            </div>
+          </>
+        )}
 
         <footer className="App-footer">
           <p>© 2025 Ethics Tour Project</p>

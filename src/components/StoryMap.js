@@ -1,15 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import '../styles/ImprovedStoryMap.css';
+import '../styles/StoryMapModern.css';
 
 // Import custom components
-import LocationSection from './LocationSection';
 import TourMap from './TourMap';
-import References from './References';
-
-// Import custom hooks and data
-import useLocationObserver from '../hooks/useLocationObserver';
+import Location from './Location';
 import locationData from '../data/locationData';
 
 // Fix for default marker icons in Leaflet with webpack
@@ -21,134 +17,185 @@ L.Icon.Default.mergeOptions({
 });
 
 const StoryMap = () => {
-    const [activeLocation, setActiveLocation] = useState(0);
-    const [geoJsonData, setGeoJsonData] = useState(null);
-    const [mapRef, setMapRef] = useState(null);
-    const [expandedNotes, setExpandedNotes] = useState([]);
+    const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
+    const [mapInstance, setMapInstance] = useState(null);
+    const [sectionProgress, setSectionProgress] = useState(0);
+    const [showMap, setShowMap] = useState(true);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // Add refs for each location section
-    const locationRefs = useRef([]);
-    const observerRef = useRef(null);
+    const sectionRefs = useRef(locationData.map(() => React.createRef()));
 
-    // Use our custom location observer hook
-    useLocationObserver(locationRefs, observerRef, setActiveLocation, locationData, mapRef);
-
-    // Load GeoJSON data for map
+    // Update progress indicator
     useEffect(() => {
-        fetch(`${process.env.PUBLIC_URL}/assets/map/SanFrancisco.Neighborhoods.json`)
-            .then(response => response.json())
-            .then(data => {
-                setGeoJsonData(data);
-            })
-            .catch(error => console.error('Error loading GeoJSON data:', error));
-    }, []);
+        const progressEl = document.querySelector('.progress-indicator');
+        if (progressEl) {
+            const progress = ((currentLocationIndex) / (locationData.length - 1)) * 100;
+            progressEl.style.width = `${progress}%`;
+        }
 
-    // Style function for GeoJSON
-    const geoJsonStyle = (feature) => {
-        const neighborhood = feature.properties.neighborhood;
-        const isHighlighted =
-            (activeLocation === 0 && neighborhood === 'Tenderloin') ||
-            (activeLocation === 1 && neighborhood === 'Civic Center') ||
-            (activeLocation === 2 && (
-                neighborhood === 'Financial District' ||
-                neighborhood === 'South of Market' ||
-                neighborhood === 'Mission Bay'
-            ));
+        // Update section progress for animations
+        setSectionProgress(0);
+        const timer = setTimeout(() => {
+            setSectionProgress(100);
+        }, 100);
 
-        return {
-            fillColor: isHighlighted ? locationData[activeLocation].color : '#f1f2f6',
-            weight: isHighlighted ? 2 : 1,
-            opacity: 1,
-            color: isHighlighted ? locationData[activeLocation].color : '#dfe4ea',
-            fillOpacity: isHighlighted ? 0.5 : 0.2
+        return () => clearTimeout(timer);
+    }, [currentLocationIndex]);
+
+    // Handle scrolling between sections
+    useEffect(() => {
+        const handleScroll = () => {
+            const windowHeight = window.innerHeight;
+
+            // Determine which section is currently in view
+            sectionRefs.current.forEach((ref, index) => {
+                if (!ref.current) return;
+
+                const rect = ref.current.getBoundingClientRect();
+                const sectionTop = rect.top;
+                const sectionHeight = rect.height;
+
+                // If section is in viewport and takes up most of the screen
+                if (sectionTop <= windowHeight * 0.3 && sectionTop > -sectionHeight * 0.7) {
+                    if (currentLocationIndex !== index) {
+                        setCurrentLocationIndex(index);
+                    }
+                }
+            });
         };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [currentLocationIndex]);
+
+    // Navigation functions
+    const goToLocation = useCallback((index) => {
+        if (isTransitioning) return;
+
+        setIsTransitioning(true);
+        setCurrentLocationIndex(index);
+
+        // Smooth scroll to the section
+        if (sectionRefs.current[index] && sectionRefs.current[index].current) {
+            sectionRefs.current[index].current.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        setTimeout(() => {
+            setIsTransitioning(false);
+        }, 1000);
+    }, [isTransitioning]);
+
+    const goToNextLocation = useCallback(() => {
+        if (currentLocationIndex < locationData.length - 1) {
+            goToLocation(currentLocationIndex + 1);
+        }
+    }, [currentLocationIndex, goToLocation]);
+
+    const goToPrevLocation = useCallback(() => {
+        if (currentLocationIndex > 0) {
+            goToLocation(currentLocationIndex - 1);
+        }
+    }, [currentLocationIndex, goToLocation]);
+
+    const toggleMapVisibility = () => {
+        setShowMap(!showMap);
     };
 
-    // Helper function to toggle note expansion
-    const toggleNoteExpansion = (noteId) => {
-        setExpandedNotes(prev =>
-            prev.includes(noteId)
-                ? prev.filter(id => id !== noteId)
-                : [...prev, noteId]
-        );
-    };
-
-    // Helper function to get public path URL
-    const getPublicPath = (path) => `${process.env.PUBLIC_URL}/${path}`;
-
-    // Scroll to a specific location section
-    const scrollToLocation = (locationId) => {
-        if (locationRefs.current[locationId]) {
-            locationRefs.current[locationId].scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+    // Use the map instance if needed
+    useEffect(() => {
+        if (mapInstance && locationData[currentLocationIndex]) {
+            // You could do something with the map here if needed
+            // For example, fly to the current location
+            const location = locationData[currentLocationIndex];
+            mapInstance.flyTo([location.lat, location.lng], 15, {
+                duration: 1.5
             });
         }
-    };
+    }, [currentLocationIndex, mapInstance]);
 
     return (
-        <div className="improved-storymap-container clean-design">
-            {/* Tour Header */}
-            <div className="tour-header">
-                <h1>Ethics Tour: Street-Level Giving in San Francisco</h1>
-                <p>Examining ethical dilemmas through Kantian, Utilitarian, and Buddhist perspectives</p>
-            </div>
-
-            {/* Location Navigation Dots */}
-            <div className="location-progress sticky-nav">
-                {locationData.map(location => (
-                    <button
-                        key={location.id}
-                        className={`location-dot ${activeLocation === location.id ? 'active' : ''}`}
-                        style={{ '--location-color': location.color }}
-                        onClick={() => scrollToLocation(location.id)}
-                        aria-label={`Go to ${location.name}`}
-                    >
-                        <span className="location-label">{location.name}</span>
-                    </button>
-                ))}
-            </div>
-
-            {/* Main Content - Clean Layout */}
-            <div className="clean-layout">
-                {/* Map Component */}
+        <div className="storymap-modern-container">
+            <div className={`map-sidebar ${showMap ? 'visible' : 'hidden'}`}>
                 <TourMap
-                    geoJsonData={geoJsonData}
-                    activeLocation={activeLocation}
+                    activeLocation={currentLocationIndex}
                     locations={locationData}
-                    setMapRef={setMapRef}
-                    scrollToLocation={scrollToLocation}
-                    geoJsonStyle={geoJsonStyle}
+                    setMapRef={setMapInstance}
+                    scrollToLocation={goToLocation}
                 />
+                <button
+                    className="toggle-map-btn"
+                    onClick={toggleMapVisibility}
+                    aria-label={showMap ? "Hide map" : "Show map"}
+                >
+                    📍
+                </button>
+            </div>
 
-                {/* Location Sections */}
-                <div className="scrollable-locations">
-                    {locationData.map((location, index) => (
-                        <div
-                            key={location.id}
-                            ref={el => locationRefs.current[index] = el}
-                            data-location-id={location.id}
-                            className="location-section"
-                            style={{ '--location-color': location.color }}
-                        >
-                            <div className="location-header">
-                                <h2>{location.name}</h2>
-                                <p>{location.description}</p>
-                            </div>
-
-                            {/* Location Content Component */}
-                            <LocationSection
+            <div className="story-sections">
+                {locationData.map((location, index) => (
+                    <section
+                        key={location.id}
+                        ref={sectionRefs.current[index]}
+                        className={`story-section ${index === currentLocationIndex ? 'active' : ''}`}
+                        style={{
+                            '--location-color': location.color,
+                            '--location-color-rgb': location.colorRgb || '52, 152, 219'
+                        }}
+                    >
+                        <div className="section-content">
+                            <Location
                                 location={location}
-                                expandedNotes={expandedNotes}
-                                toggleNoteExpansion={toggleNoteExpansion}
-                                getPublicPath={getPublicPath}
+                                isActive={index === currentLocationIndex}
+                                onNext={goToNextLocation}
+                                onPrev={goToPrevLocation}
+                                progress={index === currentLocationIndex ? sectionProgress : 0}
                             />
                         </div>
-                    ))}
 
-                    {/* References Component */}
-                    <References />
-                </div>
+                        {index < locationData.length - 1 && (
+                            <div className="scroll-indicator">
+                                <button
+                                    onClick={goToNextLocation}
+                                    aria-label="Go to next location"
+                                    className="scroll-btn"
+                                >
+                                    ↓
+                                    <span>Next Location</span>
+                                </button>
+                            </div>
+                        )}
+
+                        {index > 0 && (
+                            <div className="scroll-up-indicator">
+                                <button
+                                    onClick={goToPrevLocation}
+                                    aria-label="Go to previous location"
+                                    className="scroll-btn"
+                                >
+                                    ↑
+                                    <span>Previous Location</span>
+                                </button>
+                            </div>
+                        )}
+                    </section>
+                ))}
+
+                {/* Conclusion section */}
+                <section className="story-section conclusion">
+                    <div className="section-content">
+                        <div className="conclusion-card">
+                            <h2>Your Journey Complete</h2>
+                            <p>
+                                You've explored ethical perspectives on giving in San Francisco.
+                                We hope this tour has provided you with new frameworks to consider
+                                when navigating complex moral questions about addressing needs in urban spaces.
+                            </p>
+                            <div className="conclusion-actions">
+                                <button onClick={() => goToLocation(0)}>Restart Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     );

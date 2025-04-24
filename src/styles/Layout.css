@@ -1,1 +1,148 @@
- 
+/* Additional layout styles for better integration with StoryMap */
+
+.location-section-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Ensure the content container size is controlled */
+.location-content {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 60px);
+    /* Adjust based on your header height */
+}
+
+/* Media queries for different screen sizes */
+@media (max-width: 768px) {
+    .mdx-content {
+        padding: 1rem;
+    }
+
+    .mdx-h1 {
+        font-size: 1.7rem;
+    }
+
+    .mdx-h2 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Fix any horizontal scrolling issues */
+.mdx-content {
+    overflow-x: hidden;
+}
+
+/* Ensure images don't cause horizontal scrolling */
+.mdx-gallery {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Add transition styles for location changes */
+.location-section-wrapper,
+.location-content {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.location-section-wrapper.hidden,
+.location-content.hidden {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.location-section-wrapper.visible,
+.location-content.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Add navigation controls */
+.location-navigation {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.location-navigation button {
+    padding: 0.5rem 1rem;
+    background-color: var(--location-color, #3498db);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.location-navigation button:hover:not(:disabled) {
+    background-color: var(--location-hover-color, #2980b9);
+}
+
+.location-navigation button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Add styles for the navigation dots */
+.navigation-dots {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.nav-dot.active {
+    background-color: var(--location-color, #3498db);
+    transform: scale(1.2);
+}
+
+.dot-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.nav-dot:hover .dot-label {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+/* Add a slide transition for the location container */
+.location-container {
+    transition: transform 0.5s ease;
+}
