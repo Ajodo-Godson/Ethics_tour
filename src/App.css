@@ -142,3 +142,52 @@
     font-size: 0.75rem;
   }
 }
+
+/* Add interactive styling for the header progress points */
+.progress-track {
+  position: relative;
+  cursor: pointer;
+  height: 6px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.progress-indicator {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color, #1a73e8) 0%, var(--secondary-color, #34a853) 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease-out;
+}
+
+.header-progress-point {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  cursor: pointer;
+  background-color: #3498db;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.header-progress-point:hover,
+.header-progress-point.active {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.header-progress-point.active {
+  background-color: var(--primary-color);
+  border-color: white;
+}
+
+/* Enhance the progress bar styling */
+.header-progress {
+  flex: 1;
+  margin: 0 20px;
+  max-width: 50%;
+}

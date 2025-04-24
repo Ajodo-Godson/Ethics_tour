@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import './styles/MDX.css';
 import './styles/Layout.css';
 import './styles/StoryMapModern.css'; // New styles for ArcGIS-inspired design
 import StoryMap from './components/StoryMap';
 import MDXProviderWrapper from './components/MDXProvider';
+import locationData from './data/locationData'; // Import location data
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
+  const progressTrackRef = useRef(null);
+  const [currentLocation, setCurrentLocation] = useState(0);
+  const storyMapRef = useRef(null);
+
+  // Calculate progress percentage
+  const progressPercent = ((currentLocation) / (locationData.length - 1)) * 100;
 
   const shareProject = () => {
     if (navigator.share) {
@@ -34,6 +41,49 @@ function App() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }, 100);
+  };
+
+  // Watch for location changes from StoryMap component
+  useEffect(() => {
+    const handleLocationChange = (index) => {
+      setCurrentLocation(index);
+    };
+
+    // Add event listener
+    window.addEventListener('locationChange', (e) => handleLocationChange(e.detail.index));
+
+    return () => {
+      window.removeEventListener('locationChange', handleLocationChange);
+    };
+  }, []);
+
+  const handleProgressBarClick = (e) => {
+    if (!progressTrackRef.current) return;
+
+    // Calculate which location was clicked based on position
+    const rect = progressTrackRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickPercent = clickX / rect.width;
+
+    // Convert to location index
+    const newIndex = Math.round(clickPercent * (locationData.length - 1));
+
+    // Valid index check
+    if (newIndex >= 0 && newIndex < locationData.length) {
+      // Dispatch custom event to notify StoryMap
+      window.dispatchEvent(new CustomEvent('navigateToLocation', {
+        detail: { index: newIndex }
+      }));
+      setCurrentLocation(newIndex);
+    }
+  };
+
+  // Create simplified method for dot navigation
+  const goToLocation = (index) => {
+    window.dispatchEvent(new CustomEvent('navigateToLocation', {
+      detail: { index: index }
+    }));
+    setCurrentLocation(index);
   };
 
   return (
@@ -63,8 +113,28 @@ function App() {
                 <span className="logo-subtitle">SF</span>
               </div>
               <div className="header-progress">
-                <div className="progress-track">
-                  <div className="progress-indicator" style={{ width: '0%' }}></div>
+                <div
+                  className="progress-track"
+                  onClick={handleProgressBarClick}
+                  ref={progressTrackRef}
+                >
+                  <div className="progress-indicator" style={{ width: `${progressPercent}%` }}></div>
+
+                  {locationData.map((location, index) => (
+                    <button
+                      key={location.id}
+                      className={`header-progress-point ${index === currentLocation ? 'active' : ''}`}
+                      style={{
+                        left: `${(index / (locationData.length - 1)) * 100}%`,
+                        backgroundColor: location.color || '#3498db'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToLocation(index);
+                      }}
+                      title={location.name}
+                    />
+                  ))}
                 </div>
               </div>
               <div className="header-controls">
@@ -75,7 +145,7 @@ function App() {
             </header>
 
             <div id="storymap-content">
-              <StoryMap />
+              <StoryMap ref={storyMapRef} onLocationChange={setCurrentLocation} />
             </div>
           </>
         )}

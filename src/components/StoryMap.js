@@ -7,6 +7,7 @@ import '../styles/StoryMapModern.css';
 import TourMap from './TourMap';
 import Location from './Location';
 import locationData from '../data/locationData';
+import TableOfContents from './TableOfContents';
 
 // Fix for default marker icons in Leaflet with webpack
 delete L.Icon.Default.prototype._getIconUrl;
@@ -23,6 +24,7 @@ const StoryMap = () => {
     const [showMap, setShowMap] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [disableScrollDetection, setDisableScrollDetection] = useState(false);
+    const [showToc, setShowToc] = useState(true);
 
     const sectionRefs = useRef(locationData.map(() => React.createRef()));
 
@@ -34,6 +36,11 @@ const StoryMap = () => {
             progressEl.style.width = `${progress}%`;
         }
 
+        // Dispatch event to notify App component about location change
+        window.dispatchEvent(new CustomEvent('locationChange', {
+            detail: { index: currentLocationIndex }
+        }));
+
         // Update section progress for animations
         setSectionProgress(0);
         const timer = setTimeout(() => {
@@ -43,30 +50,40 @@ const StoryMap = () => {
         return () => clearTimeout(timer);
     }, [currentLocationIndex]);
 
-    // Handle scrolling between sections - with improvements
+    // Update the scroll detection function for better synchronization
     useEffect(() => {
         const handleScroll = () => {
             // Skip scroll detection if navigating via buttons
             if (disableScrollDetection) return;
 
             const windowHeight = window.innerHeight;
+            let closestSectionIndex = currentLocationIndex;
+            let closestDistance = Infinity;
 
-            // Determine which section is currently in view
+            // Find the section that's closest to being centered in the viewport
             sectionRefs.current.forEach((ref, index) => {
                 if (!ref.current) return;
 
                 const rect = ref.current.getBoundingClientRect();
-                const sectionTop = rect.top;
-                const sectionHeight = rect.height;
+                const sectionCenter = rect.top + rect.height / 2;
+                const viewportCenter = windowHeight / 2;
+                const distance = Math.abs(sectionCenter - viewportCenter);
 
-                // Only change the index if we're clearly viewing a different section
-                // This prevents erratic behavior when scrolling
-                if (sectionTop <= windowHeight * 0.3 && sectionTop > -sectionHeight * 0.7) {
-                    if (currentLocationIndex !== index) {
-                        setCurrentLocationIndex(index);
-                    }
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestSectionIndex = index;
                 }
             });
+
+            // Only update if we have a new section
+            if (closestSectionIndex !== currentLocationIndex) {
+                setCurrentLocationIndex(closestSectionIndex);
+
+                // Explicitly dispatch the event for App.js
+                window.dispatchEvent(new CustomEvent('locationChange', {
+                    detail: { index: closestSectionIndex }
+                }));
+            }
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -124,6 +141,10 @@ const StoryMap = () => {
         });
     }, [mapInstance]);
 
+    const toggleToc = useCallback(() => {
+        setShowToc(prev => !prev);
+    }, []);
+
     // Use the map instance if needed
     useEffect(() => {
         if (mapInstance && locationData[currentLocationIndex]) {
@@ -168,6 +189,19 @@ const StoryMap = () => {
             }
         }, 300);
     }, []);
+
+    // Add event listener to respond to navigation from the header
+    useEffect(() => {
+        const handleNavigate = (event) => {
+            goToLocation(event.detail.index);
+        };
+
+        window.addEventListener('navigateToLocation', handleNavigate);
+
+        return () => {
+            window.removeEventListener('navigateToLocation', handleNavigate);
+        };
+    }, [goToLocation]);
 
     return (
         <div className="storymap-modern-container">
@@ -227,6 +261,22 @@ const StoryMap = () => {
                     </div>
                 </section>
             </div>
+
+            <div className={`table-of-contents ${showToc ? 'visible' : ''}`}>
+                <TableOfContents
+                    locations={locationData}
+                    currentIndex={currentLocationIndex}
+                    onNavigate={goToLocation}
+                />
+            </div>
+
+            <button
+                className="toc-toggle"
+                onClick={toggleToc}
+                aria-label={showToc ? "Hide navigation" : "Show navigation"}
+            >
+                {showToc ? "×" : "≡"}
+            </button>
         </div>
     );
 };

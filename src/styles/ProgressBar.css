@@ -1,0 +1,102 @@
+.progress-bar-container {
+    position: sticky;
+    top: var(--header-height);
+    width: 100%;
+    padding: 15px 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: 50;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.progress-bar-track {
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+    position: relative;
+    overflow: visible;
+    margin-bottom: 10px;
+}
+
+.progress-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+.progress-point {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 2;
+    padding: 0;
+}
+
+.progress-point:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.progress-point.active {
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 3;
+}
+
+.progress-point.visited {
+    background-color: var(--primary-color) !important;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.progress-location {
+    font-weight: 500;
+}
+
+.progress-percentage {
+    color: #777;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .progress-bar-container {
+        padding: 10px 15px;
+    }
+
+    .progress-labels {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 0.75rem;
+    }
+
+    .progress-percentage {
+        margin-top: 3px;
+    }
+
+    .progress-point {
+        width: 12px;
+        height: 12px;
+    }
+
+    .progress-point.active {
+        width: 16px;
+        height: 16px;
+    }
+}

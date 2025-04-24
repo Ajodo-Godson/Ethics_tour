@@ -1,6 +1,9 @@
 import React from 'react';
 import { MDXProvider } from '@mdx-js/react';
+import Sidenote from './Sidenote';
 import MDXGallery from './MDXGallery';
+import StoryNote from './StoryNote';
+import References from './References';
 
 // Define custom components that will be used in MDX files
 const components = {
@@ -30,7 +33,10 @@ const components = {
                 {link && <a href={link} target="_blank" rel="noopener noreferrer"> Link</a>}
             </p>
         </div>
-    )
+    ),
+    Sidenote,
+    StoryNote,
+    References
 };
 
 const MDXProviderWrapper = ({ children }) => (

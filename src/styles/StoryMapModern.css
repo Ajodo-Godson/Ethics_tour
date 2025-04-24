@@ -249,7 +249,7 @@ body {
     margin-left: 30%;
     max-width: 100%;
     overflow-y: auto;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     background-color: #f8f9fa;
     transition: margin-left 0.3s ease-in-out;
 }
@@ -334,11 +334,10 @@ body {
 /* Story sections */
 .story-section {
     min-height: 100vh;
-    scroll-snap-align: start;
     position: relative;
-    padding: 0;
+    scroll-snap-align: start;
+    scroll-margin-top: var(--header-height);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     transition: background-color 0.5s ease;
 }
@@ -504,13 +503,23 @@ body {
 }
 
 /* Conclusion section */
-.conclusion {
-    background-color: #f9f9f9;
+.story-section.conclusion {
+    min-height: auto;
+    padding-bottom: 60px;
+    margin-bottom: 0;
+    justify-content: flex-start;
+    padding-top: 60px;
 }
 
 .conclusion-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    max-width: 700px;
+    width: 100%;
+    margin: 20px auto 60px;
     text-align: center;
-    padding: 3rem;
 }
 
 .conclusion-card h2 {
@@ -729,4 +738,10 @@ body {
     background-color: rgba(255, 255, 255, 0.15);
     pointer-events: none;
     z-index: 2;
+}
+
+.App-footer {
+    margin-top: 0;
+    position: relative;
+    z-index: 5;
 }
