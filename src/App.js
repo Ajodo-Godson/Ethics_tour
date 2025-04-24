@@ -45,12 +45,14 @@ function App() {
 
   // Watch for location changes from StoryMap component
   useEffect(() => {
-    const handleLocationChange = (index) => {
-      setCurrentLocation(index);
+    const handleLocationChange = (e) => {
+      if (e && e.detail && typeof e.detail.index === 'number') {
+        setCurrentLocation(e.detail.index);
+      }
     };
 
-    // Add event listener
-    window.addEventListener('locationChange', (e) => handleLocationChange(e.detail.index));
+    // Add event listener with improved binding
+    window.addEventListener('locationChange', handleLocationChange);
 
     return () => {
       window.removeEventListener('locationChange', handleLocationChange);
@@ -70,20 +72,32 @@ function App() {
 
     // Valid index check
     if (newIndex >= 0 && newIndex < locationData.length) {
-      // Dispatch custom event to notify StoryMap
-      window.dispatchEvent(new CustomEvent('navigateToLocation', {
-        detail: { index: newIndex }
-      }));
-      setCurrentLocation(newIndex);
+      goToLocation(newIndex);
     }
   };
 
   // Create simplified method for dot navigation
   const goToLocation = (index) => {
+    // Set the state first
+    setCurrentLocation(index);
+
+    // Update progress bar directly for immediate feedback
+    const progressEl = document.querySelector('.progress-indicator');
+    if (progressEl) {
+      const progress = ((index) / (locationData.length - 1)) * 100;
+      progressEl.style.width = `${progress}%`;
+    }
+
+    // Update active point styling
+    const points = document.querySelectorAll('.header-progress-point');
+    points.forEach((point, i) => {
+      point.classList.toggle('active', i === index);
+    });
+
+    // Dispatch event to StoryMap component
     window.dispatchEvent(new CustomEvent('navigateToLocation', {
       detail: { index: index }
     }));
-    setCurrentLocation(index);
   };
 
   return (

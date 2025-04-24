@@ -167,3 +167,73 @@
         background-color: rgba(var(--location-color-rgb, 41, 128, 185), 0.15);
     }
 }
+
+.framework-heading {
+    position: relative;
+    padding-left: 20px;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.framework-heading::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    border-radius: 3px;
+}
+
+.framework-heading.kant::before {
+    background-color: var(--kant-color, #4285f4);
+}
+
+.framework-heading.util::before {
+    background-color: var(--util-color, #ea4335);
+}
+
+.framework-heading.buddha::before {
+    background-color: var(--buddha-color, #fbbc05);
+}
+
+.framework-inline {
+    color: var(--framework-color);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.framework-inline.kant {
+    --framework-color: var(--kant-color, #4285f4);
+}
+
+.framework-inline.util {
+    --framework-color: var(--util-color, #ea4335);
+}
+
+.framework-inline.buddha {
+    --framework-color: var(--buddha-color, #fbbc05);
+}
+
+.framework-section {
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--framework-color);
+    background-color: rgba(var(--framework-color-rgb), 0.03);
+    padding: 0.5rem 1rem;
+    border-radius: 0 4px 4px 0;
+}
+
+.framework-section h4 {
+    color: var(--framework-color);
+    margin-top: 0.5rem;
+}
+
+.framework-section.kant {
+    --framework-color: var(--kant-color, #4285f4);
+    --framework-color-rgb: var(--kant-color-rgb, 66, 133, 244);
+}
+
+/* And similar for other frameworks */

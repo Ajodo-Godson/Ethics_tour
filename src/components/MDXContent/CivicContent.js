@@ -49,7 +49,13 @@ const CivicContent = () => {
                 images={[
                     '/assets/civic_plaza/Image1.jpg',
                     '/assets/civic_plaza/Image2.jpeg',
-                    '/assets/civic_plaza/Image5.jpeg'
+                    '/assets/civic_plaza/Image3.jpeg',
+                    '/assets/civic_plaza/Image4.jpeg',
+                    '/assets/civic_plaza/Image5.jpeg',
+                    '/assets/civic_plaza/Image6.jpeg',
+                    '/assets/civic_plaza/Image7.jpeg',
+                    '/assets/civic_plaza/Image8.jpeg',
+                    '/assets/civic_plaza/Image9.jpg',
                 ]}
                 location="Civic Plaza"
             />

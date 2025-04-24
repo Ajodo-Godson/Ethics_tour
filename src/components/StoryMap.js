@@ -52,42 +52,94 @@ const StoryMap = () => {
 
     // Update the scroll detection function for better synchronization
     useEffect(() => {
+        let scrollTimeout;
+
         const handleScroll = () => {
+            // Clear previous timeout
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+
             // Skip scroll detection if navigating via buttons
             if (disableScrollDetection) return;
 
-            const windowHeight = window.innerHeight;
-            let closestSectionIndex = currentLocationIndex;
-            let closestDistance = Infinity;
+            // Set a shorter delay to make it more responsive
+            scrollTimeout = setTimeout(() => {
+                const windowHeight = window.innerHeight;
+                let closestSectionIndex = currentLocationIndex;
+                let closestDistance = Infinity;
 
-            // Find the section that's closest to being centered in the viewport
-            sectionRefs.current.forEach((ref, index) => {
-                if (!ref.current) return;
+                // Find the section that's closest to being centered in the viewport
+                sectionRefs.current.forEach((ref, index) => {
+                    if (!ref.current) return;
 
-                const rect = ref.current.getBoundingClientRect();
-                const sectionCenter = rect.top + rect.height / 2;
-                const viewportCenter = windowHeight / 2;
-                const distance = Math.abs(sectionCenter - viewportCenter);
+                    const rect = ref.current.getBoundingClientRect();
+                    const sectionTop = rect.top;
+                    const sectionHeight = rect.height;
 
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestSectionIndex = index;
+                    // Calculate how close this section is to being in the viewport
+                    let distance;
+
+                    // If section is at least partially visible
+                    if (sectionTop < windowHeight && sectionTop + sectionHeight > 0) {
+                        // Calculate center of the section relative to viewport center
+                        const sectionCenter = sectionTop + (sectionHeight / 2);
+                        const viewportCenter = windowHeight / 2;
+                        distance = Math.abs(sectionCenter - viewportCenter);
+                    } else {
+                        // Section not visible, use a large distance value
+                        distance = 10000 + Math.abs(sectionTop);
+                    }
+
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestSectionIndex = index;
+                    }
+                });
+
+                // Only update if we have a new section
+                if (closestSectionIndex !== currentLocationIndex) {
+                    setCurrentLocationIndex(closestSectionIndex);
+
+                    // Directly update the progress bar for immediate feedback
+                    updateProgressBar(closestSectionIndex);
+
+                    // Dispatch event as well to ensure App.js gets notified
+                    const event = new CustomEvent('locationChange', {
+                        detail: { index: closestSectionIndex },
+                        bubbles: true
+                    });
+                    window.dispatchEvent(event);
                 }
-            });
-
-            // Only update if we have a new section
-            if (closestSectionIndex !== currentLocationIndex) {
-                setCurrentLocationIndex(closestSectionIndex);
-
-                // Explicitly dispatch the event for App.js
-                window.dispatchEvent(new CustomEvent('locationChange', {
-                    detail: { index: closestSectionIndex }
-                }));
-            }
+            }, 50); // More responsive timing
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        // Helper function to directly update progress bar
+        const updateProgressBar = (index) => {
+            const progressEl = document.querySelector('.progress-indicator');
+            if (progressEl) {
+                const progress = ((index) / (locationData.length - 1)) * 100;
+                progressEl.style.width = `${progress}%`;
+            }
+
+            // Update active dots
+            const points = document.querySelectorAll('.header-progress-point');
+            points.forEach((point, i) => {
+                if (i === index) {
+                    point.classList.add('active');
+                } else {
+                    point.classList.remove('active');
+                }
+            });
+        };
+
+        // Add both scroll and wheel event listeners for better coverage
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('wheel', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('wheel', handleScroll);
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+        };
     }, [currentLocationIndex, disableScrollDetection]);
 
     // Navigation functions - updated for better control
@@ -96,6 +148,23 @@ const StoryMap = () => {
 
         setIsTransitioning(true);
         setCurrentLocationIndex(index);
+
+        // Manually update the progress bar for immediate visual feedback
+        const progressEl = document.querySelector('.progress-indicator');
+        if (progressEl) {
+            const progress = ((index) / (locationData.length - 1)) * 100;
+            progressEl.style.width = `${progress}%`;
+        }
+
+        // Highlight active point
+        const points = document.querySelectorAll('.header-progress-point');
+        points.forEach((point, i) => {
+            if (i === index) {
+                point.classList.add('active');
+            } else {
+                point.classList.remove('active');
+            }
+        });
 
         // Disable scroll detection temporarily
         setDisableScrollDetection(true);
@@ -190,10 +259,17 @@ const StoryMap = () => {
         }, 300);
     }, []);
 
-    // Add event listener to respond to navigation from the header
+    // Add this at the top of the component
+    const memoizedGoToLocation = useCallback((index) => {
+        goToLocation(index);
+    }, [goToLocation]);
+
+    // Then use this in your event listener
     useEffect(() => {
         const handleNavigate = (event) => {
-            goToLocation(event.detail.index);
+            if (event && event.detail && typeof event.detail.index === 'number') {
+                memoizedGoToLocation(event.detail.index);
+            }
         };
 
         window.addEventListener('navigateToLocation', handleNavigate);
@@ -201,7 +277,54 @@ const StoryMap = () => {
         return () => {
             window.removeEventListener('navigateToLocation', handleNavigate);
         };
-    }, [goToLocation]);
+    }, [memoizedGoToLocation]);
+
+    // Add this to your StoryMap component
+    useEffect(() => {
+        // Create an IntersectionObserver to track which sections are in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Find which section this is
+                    const sectionEl = entry.target;
+                    const index = parseInt(sectionEl.dataset.index, 10);
+
+                    if (!isNaN(index) && index !== currentLocationIndex) {
+                        // Update only if it's actually a new section
+                        setCurrentLocationIndex(index);
+
+                        // Direct DOM update for reliability
+                        const progressEl = document.querySelector('.progress-indicator');
+                        if (progressEl) {
+                            const progress = ((index) / (locationData.length - 1)) * 100;
+                            progressEl.style.width = `${progress}%`;
+                        }
+
+                        // Also dispatch the proper event
+                        window.dispatchEvent(new CustomEvent('locationChange', {
+                            detail: { index }
+                        }));
+                    }
+                }
+            });
+        }, {
+            threshold: 0.5, // When section is 50% visible
+            rootMargin: '-10% 0px -10% 0px' // Add some margin to make detection more accurate
+        });
+
+        // Observe all sections
+        sectionRefs.current.forEach((ref, index) => {
+            if (ref.current) {
+                // Add the index as a data attribute
+                ref.current.dataset.index = index;
+                observer.observe(ref.current);
+            }
+        });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [currentLocationIndex]);
 
     return (
         <div className="storymap-modern-container">
@@ -226,6 +349,7 @@ const StoryMap = () => {
                     <section
                         key={location.id}
                         ref={sectionRefs.current[index]}
+                        data-index={index}
                         className={`story-section ${index === currentLocationIndex ? 'active' : ''}`}
                         style={{
                             '--location-color': location.color,
