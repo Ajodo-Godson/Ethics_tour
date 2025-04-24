@@ -5,12 +5,29 @@ import StoryMap from './components/StoryMap';
 // import coverImage from './assets/civic_plaza/Image1.jpg';  // This path doesn't exist
 
 function App() {
+  const shareProject = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Ethics Tour: Street-Level Giving in San Francisco',
+        text: 'Explore ethical perspectives on giving to those in need',
+        url: window.location.href,
+      })
+        .catch((error) => console.log('Error sharing', error));
+    } else {
+      // Fallback for browsers that don't support navigator.share
+      const shareUrl = window.location.href;
+      navigator.clipboard.writeText(shareUrl)
+        .then(() => alert('Link copied to clipboard! You can now share it.'))
+        .catch(() => alert('Failed to copy link. Please share this URL: ' + shareUrl));
+    }
+  };
+
   return (
     <div className="App">
       <header className="storymap-header">
         <div className="header-logo">Ethics Tour</div>
         <div className="header-controls">
-          <button className="header-button">Share</button>
+          <button className="header-button" onClick={shareProject}>Share</button>
         </div>
       </header>
 
@@ -26,7 +43,7 @@ function App() {
       <StoryMap />
 
       <footer className="App-footer">
-        <p>© 2023 Ethics Tour Project</p>
+        <p>© 2025 Ethics Tour Project</p>
       </footer>
     </div>
   );
