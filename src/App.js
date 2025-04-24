@@ -58,7 +58,10 @@ function App() {
         ) : (
           <>
             <header className="storymap-header">
-              <div className="header-logo">Ethics Tour</div>
+              <div className="header-logo">
+                <span className="logo-text">Ethics Tour</span>
+                <span className="logo-subtitle">SF</span>
+              </div>
               <div className="header-progress">
                 <div className="progress-track">
                   <div className="progress-indicator" style={{ width: '0%' }}></div>

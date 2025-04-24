@@ -22,6 +22,7 @@ const StoryMap = () => {
     const [sectionProgress, setSectionProgress] = useState(0);
     const [showMap, setShowMap] = useState(true);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [disableScrollDetection, setDisableScrollDetection] = useState(false);
 
     const sectionRefs = useRef(locationData.map(() => React.createRef()));
 
@@ -42,9 +43,12 @@ const StoryMap = () => {
         return () => clearTimeout(timer);
     }, [currentLocationIndex]);
 
-    // Handle scrolling between sections
+    // Handle scrolling between sections - with improvements
     useEffect(() => {
         const handleScroll = () => {
+            // Skip scroll detection if navigating via buttons
+            if (disableScrollDetection) return;
+
             const windowHeight = window.innerHeight;
 
             // Determine which section is currently in view
@@ -55,7 +59,8 @@ const StoryMap = () => {
                 const sectionTop = rect.top;
                 const sectionHeight = rect.height;
 
-                // If section is in viewport and takes up most of the screen
+                // Only change the index if we're clearly viewing a different section
+                // This prevents erratic behavior when scrolling
                 if (sectionTop <= windowHeight * 0.3 && sectionTop > -sectionHeight * 0.7) {
                     if (currentLocationIndex !== index) {
                         setCurrentLocationIndex(index);
@@ -66,22 +71,31 @@ const StoryMap = () => {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [currentLocationIndex]);
+    }, [currentLocationIndex, disableScrollDetection]);
 
-    // Navigation functions
+    // Navigation functions - updated for better control
     const goToLocation = useCallback((index) => {
         if (isTransitioning) return;
 
         setIsTransitioning(true);
         setCurrentLocationIndex(index);
 
+        // Disable scroll detection temporarily
+        setDisableScrollDetection(true);
+
         // Smooth scroll to the section
         if (sectionRefs.current[index] && sectionRefs.current[index].current) {
-            sectionRefs.current[index].current.scrollIntoView({ behavior: 'smooth' });
+            // Use a more forceful scrolling approach
+            sectionRefs.current[index].current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
 
+        // Re-enable scroll detection after transition completes
         setTimeout(() => {
             setIsTransitioning(false);
+            setDisableScrollDetection(false);
         }, 1000);
     }, [isTransitioning]);
 
@@ -104,8 +118,6 @@ const StoryMap = () => {
     // Use the map instance if needed
     useEffect(() => {
         if (mapInstance && locationData[currentLocationIndex]) {
-            // You could do something with the map here if needed
-            // For example, fly to the current location
             const location = locationData[currentLocationIndex];
             mapInstance.flyTo([location.lat, location.lng], 15, {
                 duration: 1.5

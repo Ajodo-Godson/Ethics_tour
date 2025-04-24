@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/StoryMapModern.css';
 import MDXLocation from './MDXLocation';
 
-const Location = ({ location, isActive, progress = 100 }) => {
+const Location = ({ location, isActive, progress = 100, onNext, onPrev }) => {
     return (
         <div
             className={`location-modern ${isActive ? 'active' : ''}`}
@@ -29,6 +29,27 @@ const Location = ({ location, isActive, progress = 100 }) => {
             <div className="location-body">
                 <div className="mdx-wrapper reveal-animation">
                     <MDXLocation location={location} />
+
+                    {/* Add navigation buttons inside the MDX content area */}
+                    <div className="location-navigation">
+                        {location.id > 0 && (
+                            <button
+                                className="prev-location-btn"
+                                onClick={onPrev}
+                            >
+                                ← Previous Location
+                            </button>
+                        )}
+
+                        {location.id < 2 && (
+                            <button
+                                className="next-location-btn"
+                                onClick={onNext}
+                            >
+                                Next Location →
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
