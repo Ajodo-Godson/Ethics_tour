@@ -29,14 +29,60 @@ jobs:
 
       - name: Create .nojekyll file
         run: touch public/.nojekyll
+        
+      - name: Create CRACO config
+        run: |
+          cat > craco.config.js << 'EOL'
+          const path = require('path');
+
+          module.exports = {
+            webpack: {
+              configure: (webpackConfig) => {
+                // Support for MDX files
+                webpackConfig.module.rules.push({
+                  test: /\.mdx?$/,
+                  use: [
+                    {
+                      loader: 'babel-loader',
+                      options: {
+                        presets: ['@babel/preset-react']
+                      }
+                    },
+                    '@mdx-js/loader'
+                  ]
+                });
+
+                return webpackConfig;
+              }
+            },
+            style: {
+              postcss: {
+                loaderOptions: {
+                  postcssOptions: {
+                    plugins: [
+                      require('postcss-flexbugs-fixes'),
+                      require('postcss-preset-env')({
+                        autoprefixer: {
+                          flexbox: 'no-2009'
+                        },
+                        stage: 3
+                      })
+                    ]
+                  }
+                }
+              }
+            }
+          };
+          EOL
 
       - name: Install Dependencies
         run: |
           npm ci
           # Install specific dependencies if needed
+          npm install @craco/craco postcss-flexbugs-fixes postcss-preset-env
           npm install leaflet react-leaflet
-          npm install @mdx-js/loader @mdx-js/react
-        
+          npm install @mdx-js/loader @mdx-js/react babel-loader @babel/preset-react
+
       - name: Install Leaflet Dependencies
         run: |
           # Ensure Leaflet assets are available
@@ -48,7 +94,6 @@ jobs:
         env:
           PUBLIC_URL: /${{ github.event.repository.name }}
           CI: false  # Prevents treating warnings as errors
-          REACT_APP_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN || '' }}
 
       - name: Validate Build Output
         run: |
