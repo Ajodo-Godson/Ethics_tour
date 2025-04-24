@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import LoadingSpinner from './LoadingSpinner';
 
 // Custom marker icons for locations
 const createLocationIcon = (color) => {
@@ -15,51 +14,50 @@ const createLocationIcon = (color) => {
     });
 };
 
-// Map controller to handle view changes
+// Simple Map Controller
 const MapController = ({ activeLocation, locations, setMapRef }) => {
     const map = useMap();
 
     useEffect(() => {
         setMapRef(map);
 
-        // Fit map to all locations bounds
-        const bounds = L.latLngBounds(locations.map(loc => [loc.lat, loc.lng]));
-        map.fitBounds(bounds, { padding: [50, 50] });
-    }, [map, setMapRef, locations]);
+        // Set default view
+        map.setView([37.774929, -122.419418], 13);
+
+    }, [map, setMapRef]);
 
     useEffect(() => {
-        const location = locations[activeLocation];
-        if (location) {
-            map.flyTo([location.lat, location.lng], 15, {
-                duration: 1.5,
-                easeLinearity: 0.25
-            });
+        if (locations && activeLocation >= 0 && activeLocation < locations.length) {
+            const location = locations[activeLocation];
+            if (location && location.lat && location.lng) {
+                map.flyTo([location.lat, location.lng], 15, {
+                    duration: 1.5
+                });
+            }
         }
     }, [activeLocation, locations, map]);
 
     return null;
 };
 
-const TourMap = ({ activeLocation, locations, setMapRef, scrollToLocation, geoJsonData, geoJsonStyle }) => {
-    const mapContainerRef = useRef(null);
+const TourMap = ({ activeLocation, locations, setMapRef, scrollToLocation }) => {
+    console.log("TourMap rendering with locations:", locations);
 
     return (
-        <div className="tour-map" ref={mapContainerRef}>
-            {!geoJsonData ? (
-                <LoadingSpinner />
-            ) : (
-                <MapContainer
-                    center={[37.774929, -122.419418]} // San Francisco
-                    zoom={13}
-                    style={{ width: '100%', height: '100%' }}
-                    zoomControl={false}
-                >
-                    <TileLayer
-                        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                    />
+        <div className="tour-map" style={{ width: '100%', height: '100%' }}>
+            <MapContainer
+                center={[37.774929, -122.419418]} // San Francisco
+                zoom={13}
+                style={{ width: '100%', height: '100%' }}
+                zoomControl={true}
+            >
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
 
-                    {locations.map((location, index) => (
+                {locations && locations.map((location, index) => (
+                    location.lat && location.lng && (
                         <Marker
                             key={location.id}
                             position={[location.lat, location.lng]}
@@ -78,15 +76,15 @@ const TourMap = ({ activeLocation, locations, setMapRef, scrollToLocation, geoJs
                                 </div>
                             </Popup>
                         </Marker>
-                    ))}
+                    )
+                ))}
 
-                    <MapController
-                        activeLocation={activeLocation}
-                        locations={locations}
-                        setMapRef={setMapRef}
-                    />
-                </MapContainer>
-            )}
+                <MapController
+                    activeLocation={activeLocation}
+                    locations={locations}
+                    setMapRef={setMapRef}
+                />
+            </MapContainer>
         </div>
     );
 };

@@ -18,6 +18,8 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   backdrop-filter: blur(10px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .header-logo {
@@ -26,14 +28,24 @@
   color: #2c3e50;
 }
 
+.header-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: auto;
+  padding-right: 5px;
+}
+
 .header-button {
   background-color: #2c3e50;
-  color: white;
+  color: rgb(57, 172, 84);
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
+  white-space: nowrap;
+  margin-left: 10px;
 }
 
 .storymap-cover {
@@ -103,5 +115,30 @@
 
   .storymap-cover p {
     font-size: 1.2rem;
+  }
+
+  .storymap-header {
+    padding: 0 10px;
+  }
+
+  .header-progress {
+    max-width: 50%;
+    margin: 0 10px;
+  }
+
+  .header-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-subtitle {
+    display: none;
+  }
+
+  .header-button {
+    padding: 5px 10px;
+    font-size: 0.75rem;
   }
 }

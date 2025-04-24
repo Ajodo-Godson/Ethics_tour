@@ -7,6 +7,8 @@ const locationData = [
         description: 'Ethical dilemmas when giving might enable harm',
         centralQuestion: 'Are we morally obligated to give if our aid might enable harmful behaviors?',
         mapCoordinates: [37.783, -122.417],
+        lat: 37.783,
+        lng: -122.417,
         color: '#2e86de',
         colorRgb: '46, 134, 222',
         heroImage: '/assets/tenderloin/hero.jpg',
@@ -46,9 +48,11 @@ const locationData = [
         subtitle: 'Public Spaces and Social Responsibility',
         description: 'Public giving & institutional responsibility',
         centralQuestion: 'Are we shifting the burden of addressing homelessness and poverty from public institutions onto individual donors, thereby normalizing systemic failure?',
+        mapCoordinates: [37.779, -122.416],
+        lat: 37.779,
+        lng: -122.416,
         color: '#10ac84',
         colorRgb: '16, 172, 132',
-        mapCoordinates: [37.779, -122.416],
         heroImage: '/assets/civic_plaza/hero.jpg',
         images: [
             './assets/civic_plaza/Image1.jpg',
@@ -87,13 +91,17 @@ const locationData = [
         subtitle: 'Corporate Ethics and Food Inequality',
         description: 'In-kind aid vs. monetary assistance',
         centralQuestion: 'Should we only give in-kind aid, such as food, water or health kits, which cannot be misused?',
+        mapCoordinates: [37.783, -122.4167],
+        lat: 37.783,
+        lng: -122.4167,
         color: '#ee5253',
         colorRgb: '238, 82, 83',
-        mapCoordinates: [37.783, -122.4167],
-        heroImage: '/assets/food_retailers/hero.jpg',
+        heroImage: '/assets/target/Image1.jpg',
         images: [
-            './assets/food_retailers/image1.jpg',
-            './assets/food_retailers/image2.jpg'
+            './assets/target/Image1.jpg',
+            './assets/civic_plaza/Image6.jpeg',
+            './assets/civic_plaza/Image7.jpeg',
+            './assets/civic_plaza/Image8.jpeg'
         ],
         notes: [
             { id: 1, content: "When giving in-kind aid instead of cash, are we respecting the recipient's autonomy as a rational agent?" },
@@ -116,5 +124,13 @@ const locationData = [
         }
     }
 ];
+
+// Update location data with lat/lng if they're missing
+locationData.forEach(location => {
+    if (!location.lat && location.mapCoordinates) {
+        location.lat = location.mapCoordinates[0];
+        location.lng = location.mapCoordinates[1];
+    }
+});
 
 export default locationData; 

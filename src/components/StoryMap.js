@@ -20,7 +20,7 @@ const StoryMap = () => {
     const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
     const [mapInstance, setMapInstance] = useState(null);
     const [sectionProgress, setSectionProgress] = useState(0);
-    const [showMap, setShowMap] = useState(true);
+    const [showMap, setShowMap] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [disableScrollDetection, setDisableScrollDetection] = useState(false);
 
@@ -111,9 +111,18 @@ const StoryMap = () => {
         }
     }, [currentLocationIndex, goToLocation]);
 
-    const toggleMapVisibility = () => {
-        setShowMap(!showMap);
-    };
+    const toggleMapVisibility = useCallback(() => {
+        setShowMap(prevShowMap => {
+            // If we're showing the map, we should refresh it
+            if (!prevShowMap && mapInstance) {
+                setTimeout(() => {
+                    mapInstance.invalidateSize();
+                    console.log("Map refreshed after showing");
+                }, 300);
+            }
+            return !prevShowMap;
+        });
+    }, [mapInstance]);
 
     // Use the map instance if needed
     useEffect(() => {
@@ -125,13 +134,48 @@ const StoryMap = () => {
         }
     }, [currentLocationIndex, mapInstance]);
 
+    // Add this troubleshooting code to your StoryMap component
+    useEffect(() => {
+        // Log the map container status
+        const mapSidebar = document.querySelector('.map-sidebar');
+        if (mapSidebar) {
+            console.log('Map sidebar dimensions:', {
+                width: mapSidebar.offsetWidth,
+                height: mapSidebar.offsetHeight,
+                visible: !mapSidebar.classList.contains('hidden')
+            });
+
+            // Force re-render of map if needed
+            if (mapInstance) {
+                setTimeout(() => {
+                    mapInstance.invalidateSize();
+                    console.log('Map size invalidated to force refresh');
+                }, 500);
+            }
+        }
+    }, [mapInstance, showMap]);
+
+    // Add this function to your component
+    const handleMapLoaded = useCallback((map) => {
+        console.log("Map loaded successfully");
+        setMapInstance(map);
+
+        // Force a resize on the map after a short delay
+        setTimeout(() => {
+            if (map) {
+                map.invalidateSize();
+                console.log("Map size refreshed");
+            }
+        }, 300);
+    }, []);
+
     return (
         <div className="storymap-modern-container">
             <div className={`map-sidebar ${showMap ? 'visible' : 'hidden'}`}>
                 <TourMap
                     activeLocation={currentLocationIndex}
                     locations={locationData}
-                    setMapRef={setMapInstance}
+                    setMapRef={handleMapLoaded}
                     scrollToLocation={goToLocation}
                 />
                 <button
@@ -139,7 +183,7 @@ const StoryMap = () => {
                     onClick={toggleMapVisibility}
                     aria-label={showMap ? "Hide map" : "Show map"}
                 >
-                    📍
+                    {showMap ? "←" : "📍"}
                 </button>
             </div>
 
@@ -163,32 +207,6 @@ const StoryMap = () => {
                                 progress={index === currentLocationIndex ? sectionProgress : 0}
                             />
                         </div>
-
-                        {index < locationData.length - 1 && (
-                            <div className="scroll-indicator">
-                                <button
-                                    onClick={goToNextLocation}
-                                    aria-label="Go to next location"
-                                    className="scroll-btn"
-                                >
-                                    ↓
-                                    <span>Next Location</span>
-                                </button>
-                            </div>
-                        )}
-
-                        {index > 0 && (
-                            <div className="scroll-up-indicator">
-                                <button
-                                    onClick={goToPrevLocation}
-                                    aria-label="Go to previous location"
-                                    className="scroll-btn"
-                                >
-                                    ↑
-                                    <span>Previous Location</span>
-                                </button>
-                            </div>
-                        )}
                     </section>
                 ))}
 
