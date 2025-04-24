@@ -19,7 +19,7 @@ function App() {
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${process.env.PUBLIC_URL}/assets/civic_plaza/Image1.jpg)`
       }}>
         <h1>Ethics Tour: Resources for the Needy</h1>
-        <p>A journey exploring ethical perspectives on giving</p>
+        <p>A journey exploring ethical perspectives on giving to strangers in need</p>
         <div className="scroll-indicator">Scroll to begin</div>
       </div>
 
