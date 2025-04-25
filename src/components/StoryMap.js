@@ -408,8 +408,8 @@ const StoryMap = () => {
                 style={{
                     display: showToc ? 'block' : 'none',
                     position: 'fixed',
-                    top: '60px',
-                    right: '20px',
+                    top: '110px',
+                    left: '20px',
                     width: '250px',
                     background: 'white',
                     boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
