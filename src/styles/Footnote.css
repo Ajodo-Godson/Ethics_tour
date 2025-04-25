@@ -1,0 +1,38 @@
+.footnote-ref {
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+.footnote-ref a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+.footnotes-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.footnotes-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.footnotes-list {
+    padding-left: 20px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.footnote-item {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.footnote-back-link {
+    color: #2980b9;
+    text-decoration: none;
+    margin-right: 5px;
+}

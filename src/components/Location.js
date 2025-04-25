@@ -36,63 +36,7 @@ const Location = ({ location, isActive }) => {
 
                 {/* MDX Content */}
                 <MDXLocation location={location} />
-
-                {/* Framework sections in cards */}
-                {location.analysis && (
-                    <div className="framework-cards">
-                        <h3>Ethical Perspectives</h3>
-
-                        {location.analysis.kantian && (
-                            <div className="framework-card">
-                                <div className="framework-header">
-                                    <div className="framework-icon kant-icon">K</div>
-                                    <h4>{location.analysis.kantian.title}</h4>
-                                </div>
-                                <div className="framework-body">
-                                    <p>{location.analysis.kantian.text}</p>
-                                </div>
-                            </div>
-                        )}
-
-                        {location.analysis.utilitarian && (
-                            <div className="framework-card">
-                                <div className="framework-header">
-                                    <div className="framework-icon util-icon">U</div>
-                                    <h4>{location.analysis.utilitarian.title}</h4>
-                                </div>
-                                <div className="framework-body">
-                                    <p>{location.analysis.utilitarian.text}</p>
-                                </div>
-                            </div>
-                        )}
-
-                        {location.analysis.buddhist && (
-                            <div className="framework-card">
-                                <div className="framework-header">
-                                    <div className="framework-icon buddha-icon">B</div>
-                                    <h4>{location.analysis.buddhist.title}</h4>
-                                </div>
-                                <div className="framework-body">
-                                    <p>{location.analysis.buddhist.text}</p>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
             </div>
-
-            {/* Divider with background image (if multiple images available) */}
-            {location.images && location.images.length > 1 && (
-                <div
-                    className="parallax-divider"
-                    style={{ backgroundImage: `url(${process.env.PUBLIC_URL}${location.images[1]})` }}
-                >
-                    <div className="divider-content">
-                        <h3>Ethical Implications</h3>
-                        <p>How we respond to needs in this location has lasting implications for both individuals and communities.</p>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
