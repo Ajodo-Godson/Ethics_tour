@@ -11,7 +11,7 @@ const locationData = [
         lng: -122.417,
         color: '#2e86de',
         colorRgb: '46, 134, 222',
-        heroImage: '/assets/tenderloin/hero.jpg',
+        heroImage: '/assets/map/sf-background.jpg',
         images: [
             './assets/tenderloin/Image1.webp',
             './assets/tenderloin/Image2.webp',
