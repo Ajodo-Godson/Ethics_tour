@@ -2,28 +2,17 @@ import React from 'react';
 import '../styles/Footnote.css';
 
 // Component for footnote references in text
-export const FootnoteRef = ({ id }) => (
-    <sup className="footnote-ref">
-        <a href={`#footnote-${id}`} id={`footnote-ref-${id}`}>
-            [{id}]
-        </a>
-    </sup>
+export const FootnoteRef = ({ id, children }) => (
+    <span className="sidenote-ref" id={`footnote-ref-${id}`}>
+        <sup>{id}</sup>
+        <span className="sidenote" id={`sidenote-${id}`}>
+            {children || `Note ${id}`}
+        </span>
+    </span>
 );
 
-// Component for individual footnotes
-export const Footnote = ({ id, children }) => (
-    <li id={`footnote-${id}`} className="footnote-item">
-        <a href={`#footnote-ref-${id}`} className="footnote-back-link">
-            [{id}]
-        </a>{' '}
-        {children}
-    </li>
-);
+// Component for sidenotes (replaces the old footnote system)
+export const Footnote = ({ id, children }) => children;
 
-// Container for all footnotes
-export const FootnotesSection = ({ children }) => (
-    <div className="footnotes-section">
-        <h3>Notes</h3>
-        <ol className="footnotes-list">{children}</ol>
-    </div>
-); 
+// This is kept for backward compatibility but won't be used in the new design
+export const FootnotesSection = ({ children }) => null; 

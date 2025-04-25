@@ -39,27 +39,26 @@ const locationData = [
         }
     },
     {
-        id: 0,
+        id: "tenderloin",
         name: 'Tenderloin',
-        subtitle: 'Public Spaces and Social Responsibility',
-        description: 'Public giving & institutional responsibility',
-        centralQuestion: 'Are we shifting the burden of addressing homelessness and poverty from public institutions onto individual donors, thereby normalizing systemic failure?',
-        mapCoordinates: [37.779, -122.416],
-        lat: 37.779,
-        lng: -122.416,
+        subtitle: 'Are we morally obligated to give to strangers in need, if it might enable harm?',
+        description: 'Ethical dilemmas of direct giving',
+        centralQuestion: 'Should we give directly to strangers if our aid might be misused?',
+        mapCoordinates: [37.784, -122.414],
+        lat: 37.784,
+        lng: -122.414,
         color: '#10ac84',
         colorRgb: '16, 172, 132',
-        heroImage: '/assets/civic_plaza/hero.jpg',
+        heroImage: '/assets/tenderloin/Image8.jpg',
         images: [
-            './assets/civic_plaza/Image1.jpg',
-            './assets/civic_plaza/Image2.jpeg',
-            './assets/civic_plaza/Image3.jpeg',
-            './assets/civic_plaza/Image4.jpeg',
-            './assets/civic_plaza/Image5.jpeg',
-            './assets/civic_plaza/Image6.jpeg',
-            './assets/civic_plaza/Image7.jpeg',
-            './assets/civic_plaza/Image8.jpeg',
-            './assets/civic_plaza/Image9.jpg'
+            './assets/tenderloin/Image1.webp',
+            './assets/tenderloin/Image2.webp',
+            './assets/tenderloin/Image3.jpg',
+            './assets/tenderloin/Image4.jpeg',
+            './assets/tenderloin/Image5.jpeg',
+            './assets/tenderloin/Image6.jpeg',
+            './assets/tenderloin/Image7.jpeg',
+
         ],
         notes: [],
         analysis: {
@@ -78,22 +77,21 @@ const locationData = [
         }
     },
     {
-        id: 1,
-        name: 'Civic Plaza',
-        subtitle: 'Corporate Ethics and Food Inequality',
+        id: "grocery",
+        name: 'Grocery Stores',
+        subtitle: 'Should we only give in-kind aid, such as food, water or gift cards, which cannot be misused?',
         description: 'In-kind aid vs. monetary assistance',
-        centralQuestion: 'Should we only give in-kind aid, such as food, water or health kits, which cannot be misused?',
-        mapCoordinates: [37.783, -122.4167],
-        lat: 37.783,
-        lng: -122.4167,
+        centralQuestion: 'Is it more ethical to give only in-kind aid that cannot be misused?',
+        mapCoordinates: [37.781, -122.412],
+        lat: 37.781,
+        lng: -122.412,
         color: '#ee5253',
         colorRgb: '238, 82, 83',
         heroImage: '/assets/target/Image1.jpg',
         images: [
             './assets/target/Image1.jpg',
-            './assets/civic_plaza/Image6.jpeg',
-            './assets/civic_plaza/Image7.jpeg',
-            './assets/civic_plaza/Image8.jpeg'
+            './assets/target/Image2.jpeg',
+            './assets/target/Image3.jpg'
         ],
         notes: [],
         analysis: {
@@ -112,36 +110,42 @@ const locationData = [
         }
     },
     {
-        id: 2,
-        name: 'Food Retailers',
-        subtitle: 'Corporate Ethics and Food Inequality',
-        description: 'In-kind aid vs. monetary assistance',
-        centralQuestion: 'Should we only give in-kind aid, such as food, water or health kits, which cannot be misused?',
-        mapCoordinates: [37.783, -122.4167],
-        lat: 37.783,
-        lng: -122.4167,
-        color: '#ee5253',
-        colorRgb: '238, 82, 83',
-        heroImage: '/assets/target/Image1.jpg',
+        id: "civic",
+        name: 'Civic Plaza',
+        subtitle: 'Public Spaces and Social Responsibility',
+        description: 'Public giving & institutional responsibility',
+        centralQuestion: 'Are we shifting the burden of addressing homelessness from public institutions to individuals?',
+        mapCoordinates: [37.779, -122.416],
+        lat: 37.779,
+        lng: -122.416,
+        color: '#9b59b6',
+        colorRgb: '155, 89, 182',
+        heroImage: '/assets/civic_plaza/Image9.jpg',
         images: [
-            './assets/target/Image1.jpg',
+            './assets/civic_plaza/Image1.jpg',
+            './assets/civic_plaza/Image2.jpeg',
+            './assets/civic_plaza/Image3.jpeg',
+            './assets/civic_plaza/Image4.jpeg',
+            './assets/civic_plaza/Image5.jpeg',
             './assets/civic_plaza/Image6.jpeg',
             './assets/civic_plaza/Image7.jpeg',
-            './assets/civic_plaza/Image8.jpeg'
+            './assets/civic_plaza/Image8.jpeg',
+
+
         ],
         notes: [],
         analysis: {
             kantian: {
                 title: 'Kantian Perspective',
-                text: 'From a Kantian lens, when you give only in-kind aid, are you treating the recipient as a fellow rational being, or are you subtly asserting superiority in deciding what they should want? Kant would caution against paternalism while still acknowledging your imperfect duty to help.'
+                text: 'Kant might question whether we\'re fulfilling civic responsibilities when we rely on individual charity. True moral action might involve advocating for systemic changes that respect the dignity of all persons.'
             },
             utilitarian: {
                 title: 'Utilitarian Approach',
-                text: 'Effective altruists would approach this pragmatically: Which form of giving produces the most positive impact? Studies suggest direct cash aid often improves outcomes, but context matters. Giving a sandwich to someone who is clearly hungry may yield immediate utility.'
+                text: 'Utilitarians would evaluate whether individual giving or institutional solutions produce greater well-being. Resources directed through effective public programs might benefit more people than sporadic individual donations.'
             },
             buddhist: {
                 title: 'Buddhist View',
-                text: 'Buddhist ethics would focus on whether your action reduces suffering while maintaining compassion, acknowledging that intention shapes the moral quality of giving.'
+                text: 'Buddhist ethics suggests that compassion must be coupled with wisdom. Individual giving addresses immediate suffering, but community action addresses the systemic causes of suffering.'
             }
         }
     }

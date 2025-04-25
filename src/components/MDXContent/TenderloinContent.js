@@ -1,6 +1,6 @@
 import React from 'react';
 import MDXGallery from '../MDXGallery';
-import { FootnoteRef, Footnote, FootnotesSection } from '../Footnote';
+import { FootnoteRef } from '../Footnote';
 
 const TenderloinContent = () => {
     return (
@@ -21,11 +21,15 @@ const TenderloinContent = () => {
 
             <p>These are the bases for Kant's conception of perfect duty (moral law you must always follow, such as "never lie") and imperfect duty (moral law with flexibility in how and how often you follow). While such a world is conceivable, rational beings who might someday need help cannot consistently follow such a principle. Thus, Kant would classify giving as an imperfect duty.</p>
 
-            <p>Kant also requires treating people as ends in themselves, never merely as means. It means you cannot solely use anyone as tools, there must be aspects of humanity and dignity. Even if you don't give, you mustn't ignore them, because it would deny their moral worth, violating Kant's imperative to recognize each person as an autonomous rational being deserving of respect. Consequently, Kantian ethics requires giving regularly within our means, while treating aid-seekers with respect by making eye contact or engaging in conversations.</p>
+            <p>Kant also requires treating people as ends in themselves, never merely as means. It means you cannot solely use anyone as tools, there must be aspects of humanity and dignity. Even if you don't give, you mustn't ignore them, because it would deny their moral worth, violating Kant's imperative to recognize each person as an autonomous rational being deserving of respect. <FootnoteRef id="3">
+                Stohr, K. (2011). Kantian Beneficence and the Problem of Obligatory Aid. Journal of Moral Philosophy, 8(1), 45–67. https://doi.org/10.1163/174552411x549372
+            </FootnoteRef> Consequently, Kantian ethics requires giving regularly within our means, while treating aid-seekers with respect by making eye contact or engaging in conversations.</p>
 
-            <p>Some uses Kant's description of begging as "closely akin to robbery", and that the act of having to ask others for your essential needs is self-humiliating, to justify their refusing begging requests. But it doesn't. Refusing to give does not restore the beggar's dignity; it compounds their marginalization by reinforcing an unjust system where survival depends on private charity. Our discomfort in these moments is not personal; it is a sign our system is not doing enough.</p>
+            <p>Some uses Kant's description of begging as "closely akin to robbery", and that the act of having to ask others for your essential needs is self-humiliating, to justify their refusing begging requests. <FootnoteRef id="4">
+                Allais, L. (2015). What Properly Belongs to Me. Journal of Moral Philosophy, 12(6), 754–771. https://doi.org/10.1163/17455243-4681042.
+            </FootnoteRef> But it doesn't. Refusing to give does not restore the beggar's dignity; it compounds their marginalization by reinforcing an unjust system where survival depends on private charity. Our discomfort in these moments is not personal; it is a sign our system is not doing enough.</p>
 
-            <p>Your imperfect duty to give persists even when you're uncertain about the panhandler's genuine need or potential misuse. Again, the morality of an action lies not in its effects or your inclinations (e.g., emotions, self-interests), but whether it stems from a universalizable guiding principle.<FootnoteRef id="1" /> Refusing to give due to potential fraud or misuse is a prudential judgment based on prediction about others' behavior. This reasoning lacks universality and thus moral value; it may change how you give, but it doesn't excuse you from not following the moral law of giving.</p>
+            <p>Your imperfect duty to give persists even when you're uncertain about the panhandler's genuine need or potential misuse. Again, the morality of an action lies not in its effects or your inclinations (e.g., emotions, self-interests), but whether it stems from a universalizable guiding principle. Refusing to give due to potential fraud or misuse is a prudential judgment based on prediction about others' behavior. This reasoning lacks universality and thus moral value; it may change how you give, but it doesn't excuse you from not following the moral law of giving.</p>
 
             <h4>EA - One-on-one giving is ineffective</h4>
 
@@ -68,15 +72,6 @@ const TenderloinContent = () => {
                     <a href="https://plato.stanford.edu/entries/principle-beneficence/" target="_blank" rel="noopener noreferrer"> Link</a>
                 </p>
             </div>
-
-            <FootnotesSection>
-                <Footnote id="1">
-                    Kant, I. (1785). <em>Groundwork of the Metaphysics of Morals</em>. This is one of Kant's fundamental works where he develops the concept of the categorical imperative.
-                </Footnote>
-                <Footnote id="2">
-                    This concept is elaborated in "Dānavagga" (The Chapter on Giving) from the <em>Aṅguttaranikāya</em>, which suggests that the act of giving with good intention creates positive merit regardless of how the recipient uses the gift.
-                </Footnote>
-            </FootnotesSection>
         </div>
     );
 };
