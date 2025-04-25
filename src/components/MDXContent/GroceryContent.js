@@ -1,6 +1,6 @@
 import React from 'react';
 import MDXGallery from '../MDXGallery';
-import { FootnoteRef, Footnote, FootnotesSection } from '../Footnote';
+
 
 const GroceryContent = () => {
     return (
@@ -9,11 +9,11 @@ const GroceryContent = () => {
 
             <p>Previously, we discussed how giving in-kind aid is wiser, as it prevents harmful item purchases (e.g., alcohol and drugs). It's win-win when someone asks for it, but should we refuse monetary requests and only offer in-kind aid, especially if grocery or convenience stores are nearby?</p>
 
-            <p>Remember that Kantian imperfect duty to give doesn't require us to always give nor always give money, but it does require that we treat beggars with respect. Concretely, it means recognizing the recipient's capacity to decide what best meets their needs. When you give in-kind aid instead of cash to avoid enabling misuse, you disrespect their agency of decision-making and subtly assert your superiority in deciding what they should want. You are acting immorally according to Kant.<FootnoteRef id="1" /> (Some could challenge that Kant considers those who cannot think or decide rationally–mentally ill, high-on-drugs, or unconscious– non-people, thus not worthy of respect and dignity. It's true, there's no more duty. Kant would advise treating them with kindness, to cultivate our moral character and prevent us from becoming cruel towards humans).</p>
+            <p>Remember that Kantian imperfect duty to give doesn't require us to always give nor always give money, but it does require that we treat beggars with respect. Concretely, it means recognizing the recipient's capacity to decide what best meets their needs. When you give in-kind aid instead of cash to avoid enabling misuse, you disrespect their agency of decision-making and subtly assert your superiority in deciding what they should want. You are acting immorally according to Kant. (Some could challenge that Kant considers those who cannot think or decide rationally–mentally ill, high-on-drugs, or unconscious– non-people, thus not worthy of respect and dignity. It's true, there's no more duty. Kant would advise treating them with kindness, to cultivate our moral character and prevent us from becoming cruel towards humans).</p>
 
             <p>Effective altruists would simply extend their earlier analysis: direct aid, whether cash or in-kind, remains suboptimal compared to systematic solutions through effective organizations, which could provide addiction treatment, housing, or some sort of care for the most needy.</p>
 
-            <p>To reiterate, you should give with goodwill, detached from potential outcomes. So while giving only in-kind aid to prevent harm is still an act of generosity, a more mindful approach involves offering a choice: "Would you prefer some food or would money be more helpful?" This honors the recipient's agency while demonstrating awareness of their immediate needs. The Buddhist principle of dependent origination (paṭiccasamuppāda) reminds us that homelessness and addiction arise from complex conditions, not simple individual choices.<FootnoteRef id="2" /> Consequently, while offering immediate aid in whatever form suits the situation, Buddhists would also emphasize addressing systemic causes through community action and policy change.</p>
+            <p>To reiterate, you should give with goodwill, detached from potential outcomes. So while giving only in-kind aid to prevent harm is still an act of generosity, a more mindful approach involves offering a choice: "Would you prefer some food or would money be more helpful?" This honors the recipient's agency while demonstrating awareness of their immediate needs. The Buddhist principle of dependent origination (paṭiccasamuppāda) reminds us that homelessness and addiction arise from complex conditions, not simple individual choices. Consequently, while offering immediate aid in whatever form suits the situation, Buddhists would also emphasize addressing systemic causes through community action and policy change.</p>
 
             {/* Gallery component with grocery store images */}
             <MDXGallery
@@ -26,15 +26,7 @@ const GroceryContent = () => {
                 location="Grocery Stores"
             />
 
-            {/* Footnotes */}
-            <FootnotesSection>
-                <Footnote id="1">
-                    This concept builds on Kant's principle of treating others as ends in themselves, not merely as means to an end. By deciding for others what they need, we may fail to respect their autonomy.
-                </Footnote>
-                <Footnote id="2">
-                    The concept of dependent origination (paṭiccasamuppāda) is a core Buddhist teaching that explains how all phenomena arise due to multiple interdependent causes and conditions.
-                </Footnote>
-            </FootnotesSection>
+
         </div>
     );
 };
