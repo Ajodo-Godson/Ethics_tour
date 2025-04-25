@@ -1,25 +1,46 @@
 import React from 'react';
-import '../styles/TableOfContents.css';
 
 const TableOfContents = ({ locations, currentIndex, onNavigate }) => {
     return (
-        <div className="toc-container">
-            <h2>Tour Stops</h2>
+        <div style={{ padding: '15px' }}>
+            <h3 style={{
+                marginTop: 0,
+                borderBottom: '1px solid #eee',
+                paddingBottom: '10px'
+            }}>
+                Tour Locations
+            </h3>
 
-            {locations.map((location, index) => (
-                <div
-                    key={location.id}
-                    className={`toc-location ${index === currentIndex ? 'active' : ''}`}
-                    onClick={() => onNavigate(index)}
-                    style={{
-                        '--location-color': location.color,
-                        '--location-color-rgb': location.colorRgb
-                    }}
-                >
-                    <div className="toc-location-title">{location.name}</div>
-                    <div className="toc-location-subtitle">{location.subtitle}</div>
-                </div>
-            ))}
+            <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0
+            }}>
+                {locations.map((location, index) => (
+                    <li key={location.id} style={{
+                        marginBottom: '8px',
+                        borderLeft: index === currentIndex ? '3px solid #3498db' : '3px solid transparent',
+                        paddingLeft: '8px'
+                    }}>
+                        <button
+                            onClick={() => onNavigate(index)}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                padding: '5px 0',
+                                display: 'block',
+                                width: '100%',
+                                textAlign: 'left',
+                                cursor: 'pointer',
+                                color: index === currentIndex ? '#3498db' : '#333',
+                                fontWeight: index === currentIndex ? 'bold' : 'normal'
+                            }}
+                        >
+                            {location.title || location.name}
+                        </button>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

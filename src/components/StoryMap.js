@@ -207,7 +207,8 @@ const StoryMap = () => {
     }, [mapInstance]);
 
     const toggleToc = () => {
-        setShowToc(!showToc);
+        console.log("Toggling TOC from", showToc, "to", !showToc);
+        setShowToc(prevState => !prevState);
     };
 
     // Use the map instance if needed
@@ -322,6 +323,11 @@ const StoryMap = () => {
         };
     }, [currentLocationIndex]);
 
+    // Add this for debugging
+    useEffect(() => {
+        console.log("TOC visibility:", showToc);
+    }, [showToc]);
+
     return (
         <div className={`storymap-modern-container ${isTransitioning ? 'is-transitioning' : ''}`}>
             <div className={`map-sidebar ${showMap ? 'visible' : 'hidden'}`}>
@@ -382,21 +388,39 @@ const StoryMap = () => {
                 </section>
             </div>
 
-            <div className={`table-of-contents ${showToc ? 'visible' : 'hidden'}`}>
+            <button
+                className="toc-toggle"
+                onClick={toggleToc}
+                style={{
+                    position: 'fixed',
+                    top: '20px',
+                    right: '20px',
+                    zIndex: 1000
+                }}
+            >
+                {showToc ? "×" : "≡"}
+            </button>
+
+            <div
+                className="table-of-contents-container"
+                style={{
+                    display: showToc ? 'block' : 'none',
+                    position: 'fixed',
+                    top: '60px',
+                    right: '20px',
+                    width: '250px',
+                    background: 'white',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    borderRadius: '10px',
+                    zIndex: 999
+                }}
+            >
                 <TableOfContents
                     locations={locationData}
                     currentIndex={currentLocationIndex}
                     onNavigate={goToLocation}
                 />
             </div>
-
-            <button
-                className="toc-toggle"
-                onClick={toggleToc}
-                aria-label={showToc ? "Hide navigation" : "Show navigation"}
-            >
-                {showToc ? "×" : "≡"}
-            </button>
         </div>
     );
 };
