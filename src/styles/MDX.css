@@ -7,6 +7,10 @@
     overflow-y: auto;
     box-sizing: border-box;
     padding-bottom: 3rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .mdx-h1 {
@@ -41,8 +45,7 @@
 }
 
 .mdx-p {
-    margin-bottom: 1rem;
-    line-height: 1.6;
+    margin-bottom: 1.2rem;
 }
 
 .mdx-blockquote {
@@ -55,12 +58,12 @@
 
 .mdx-ul,
 .mdx-ol {
-    margin: 1rem 0;
-    padding-left: 2rem;
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .mdx-li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
 }
 
 /* Add these styles for images */
@@ -237,3 +240,63 @@
 }
 
 /* And similar for other frameworks */
+
+/* Scrollable content area with smooth scrolling */
+.location-content {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding-right: 1rem;
+    max-height: calc(100vh - 150px);
+}
+
+/* Better section separation */
+.mdx-content h2 {
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mdx-content h3 {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+}
+
+/* Improve readability of paragraphs */
+.mdx-p {
+    margin-bottom: 1.2rem;
+}
+
+/* Improve list styling */
+.mdx-ul,
+.mdx-ol {
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.mdx-li {
+    margin-bottom: 0.7rem;
+}
+
+/* Add a print-friendly option for long content */
+@media print {
+    .mdx-content {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+
+    .location-content {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* Add block quote styling for referenced content */
+blockquote {
+    border-left: 4px solid var(--location-color, #4285f4);
+    padding-left: 1rem;
+    font-style: italic;
+    margin: 1.5rem 0;
+    background-color: rgba(0, 0, 0, 0.03);
+    padding: 1rem;
+    border-radius: 0 4px 4px 0;
+}

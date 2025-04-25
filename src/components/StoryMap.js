@@ -18,7 +18,9 @@ L.Icon.Default.mergeOptions({
 });
 
 const StoryMap = () => {
-    const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
+    const [currentLocationIndex, setCurrentLocationIndex] = useState(
+        locationData.findIndex(loc => loc.id === "introduction")
+    );
     const [mapInstance, setMapInstance] = useState(null);
     const [sectionProgress, setSectionProgress] = useState(0);
     const [showMap, setShowMap] = useState(false);
@@ -144,46 +146,37 @@ const StoryMap = () => {
 
     // Navigation functions - updated for better control
     const goToLocation = useCallback((index) => {
-        if (isTransitioning) return;
-
         setIsTransitioning(true);
         setCurrentLocationIndex(index);
 
-        // Manually update the progress bar for immediate visual feedback
-        const progressEl = document.querySelector('.progress-indicator');
-        if (progressEl) {
-            const progress = ((index) / (locationData.length - 1)) * 100;
-            progressEl.style.width = `${progress}%`;
-        }
-
-        // Highlight active point
-        const points = document.querySelectorAll('.header-progress-point');
-        points.forEach((point, i) => {
-            if (i === index) {
-                point.classList.add('active');
-            } else {
-                point.classList.remove('active');
-            }
-        });
-
-        // Disable scroll detection temporarily
-        setDisableScrollDetection(true);
-
         // Smooth scroll to the section
-        if (sectionRefs.current[index] && sectionRefs.current[index].current) {
-            // Use a more forceful scrolling approach
-            sectionRefs.current[index].current.scrollIntoView({
+        const section = sectionRefs.current[index].current;
+        if (section) {
+            // Using smooth scroll behavior
+            section.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
-        }
 
-        // Re-enable scroll detection after transition completes
-        setTimeout(() => {
-            setIsTransitioning(false);
-            setDisableScrollDetection(false);
-        }, 1000);
-    }, [isTransitioning]);
+            // Reset transition state after animation completes
+            setTimeout(() => {
+                setIsTransitioning(false);
+
+                // Apply active section styling
+                section.classList.add('active-section');
+
+                // Update map view
+                if (mapInstance && locationData[index]) {
+                    const location = locationData[index];
+                    mapInstance.flyTo(
+                        [location.lat, location.lng],
+                        15,
+                        { duration: 1.5, animate: true }
+                    );
+                }
+            }, 1000);
+        }
+    }, [isTransitioning, mapInstance]);
 
     const goToNextLocation = useCallback(() => {
         if (currentLocationIndex < locationData.length - 1) {

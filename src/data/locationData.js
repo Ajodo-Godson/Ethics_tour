@@ -1,8 +1,8 @@
 // Location data for Ethics Tour
 const locationData = [
     {
-        id: 0,
-        name: 'Tenderloin',
+        id: "introduction",
+        name: "Introduction",
         subtitle: 'Urban Poverty in a Wealthy City',
         description: 'Ethical dilemmas when giving might enable harm',
         centralQuestion: 'Are we morally obligated to give if our aid might enable harmful behaviors?',
@@ -43,8 +43,8 @@ const locationData = [
         }
     },
     {
-        id: 1,
-        name: 'Civic Plaza',
+        id: 0,
+        name: 'Tenderloin',
         subtitle: 'Public Spaces and Social Responsibility',
         description: 'Public giving & institutional responsibility',
         centralQuestion: 'Are we shifting the burden of addressing homelessness and poverty from public institutions onto individual donors, thereby normalizing systemic failure?',
@@ -82,6 +82,44 @@ const locationData = [
             buddhist: {
                 title: 'Buddhist View',
                 text: 'Buddhist ethics reminds us that our intentions matter - giving publicly with genuine compassion differs from giving for social recognition. Yet all beings deserve support regardless of where they\'re encountered.'
+            }
+        }
+    },
+    {
+        id: 1,
+        name: 'Civic Plaza',
+        subtitle: 'Corporate Ethics and Food Inequality',
+        description: 'In-kind aid vs. monetary assistance',
+        centralQuestion: 'Should we only give in-kind aid, such as food, water or health kits, which cannot be misused?',
+        mapCoordinates: [37.783, -122.4167],
+        lat: 37.783,
+        lng: -122.4167,
+        color: '#ee5253',
+        colorRgb: '238, 82, 83',
+        heroImage: '/assets/target/Image1.jpg',
+        images: [
+            './assets/target/Image1.jpg',
+            './assets/civic_plaza/Image6.jpeg',
+            './assets/civic_plaza/Image7.jpeg',
+            './assets/civic_plaza/Image8.jpeg'
+        ],
+        notes: [
+            { id: 1, content: "When giving in-kind aid instead of cash, are we respecting the recipient's autonomy as a rational agent?" },
+            { id: 2, content: "Studies suggest direct cash aid often improves outcomes like housing stability and food security." },
+            { id: 3, content: "Buddhist ethics focuses on whether our action reduces suffering while maintaining compassion." }
+        ],
+        analysis: {
+            kantian: {
+                title: 'Kantian Perspective',
+                text: 'From a Kantian lens, when you give only in-kind aid, are you treating the recipient as a fellow rational being, or are you subtly asserting superiority in deciding what they should want? Kant would caution against paternalism while still acknowledging your imperfect duty to help.'
+            },
+            utilitarian: {
+                title: 'Utilitarian Approach',
+                text: 'Effective altruists would approach this pragmatically: Which form of giving produces the most positive impact? Studies suggest direct cash aid often improves outcomes, but context matters. Giving a sandwich to someone who is clearly hungry may yield immediate utility.'
+            },
+            buddhist: {
+                title: 'Buddhist View',
+                text: 'Buddhist ethics would focus on whether your action reduces suffering while maintaining compassion, acknowledging that intention shapes the moral quality of giving.'
             }
         }
     },
