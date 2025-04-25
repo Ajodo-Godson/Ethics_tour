@@ -22,18 +22,6 @@ const Location = ({ location, isActive }) => {
 
             {/* Main content section */}
             <div className="story-content-container">
-                {/* Notes in floating panels */}
-                {location.notes && location.notes.length > 0 && (
-                    <div className="floating-panel">
-                        <h3>Key Considerations</h3>
-                        <ul className="notes-list">
-                            {location.notes.map(note => (
-                                <li key={note.id}>{note.content}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
                 {/* MDX Content */}
                 <MDXLocation location={location} />
             </div>

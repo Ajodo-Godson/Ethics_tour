@@ -495,30 +495,30 @@
 }
 
 /* Inset floating panels */
+/*
 .floating-panel {
-    background-color: white;
-    border-radius: 4px;
-    padding: 2rem;
-    max-width: 800px;
-    margin: 2rem auto;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-}
-
-.floating-panel h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 250px;
+    max-width: 90%;
 }
 
 .notes-list {
-    list-style-type: disc;
-    padding-left: 1.5rem;
+    list-style-type: none;
+    padding-left: 0;
 }
 
 .notes-list li {
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
+    font-size: 14px;
     line-height: 1.5;
 }
+*/
 
 /* Full-width dividers with background images */
 .parallax-divider {

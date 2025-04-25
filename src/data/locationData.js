@@ -22,11 +22,7 @@ const locationData = [
             './assets/tenderloin/Image7.jpeg',
             './assets/tenderloin/Image8.jpg'
         ],
-        notes: [
-            { id: 1, content: 'From an effective altruism perspective, resources allocated here should maximize welfare for the greatest number of people.' },
-            { id: 2, content: 'Kant would assert we still have an imperfect duty to give, regardless of potential misuse.' },
-            { id: 3, content: 'Buddhism views giving (dāna) as the first of six pāramitās that constitute the path to awakening.' }
-        ],
+        notes: [],
         analysis: {
             kantian: {
                 title: 'Kantian Perspective',
@@ -65,11 +61,7 @@ const locationData = [
             './assets/civic_plaza/Image8.jpeg',
             './assets/civic_plaza/Image9.jpg'
         ],
-        notes: [
-            { id: 1, content: 'Are we shifting responsibility from public institutions to individual donors, normalizing systemic failure?' },
-            { id: 2, content: 'The visibility of giving in public spaces raises questions about motivation: duty or social recognition?' },
-            { id: 3, content: 'Utilitarian perspectives ask whether public giving creates positive awareness or potentially negative consequences.' }
-        ],
+        notes: [],
         analysis: {
             kantian: {
                 title: 'Kantian Perspective',
@@ -103,11 +95,7 @@ const locationData = [
             './assets/civic_plaza/Image7.jpeg',
             './assets/civic_plaza/Image8.jpeg'
         ],
-        notes: [
-            { id: 1, content: "When giving in-kind aid instead of cash, are we respecting the recipient's autonomy as a rational agent?" },
-            { id: 2, content: "Studies suggest direct cash aid often improves outcomes like housing stability and food security." },
-            { id: 3, content: "Buddhist ethics focuses on whether our action reduces suffering while maintaining compassion." }
-        ],
+        notes: [],
         analysis: {
             kantian: {
                 title: 'Kantian Perspective',
@@ -141,11 +129,7 @@ const locationData = [
             './assets/civic_plaza/Image7.jpeg',
             './assets/civic_plaza/Image8.jpeg'
         ],
-        notes: [
-            { id: 1, content: "When giving in-kind aid instead of cash, are we respecting the recipient's autonomy as a rational agent?" },
-            { id: 2, content: "Studies suggest direct cash aid often improves outcomes like housing stability and food security." },
-            { id: 3, content: "Buddhist ethics focuses on whether our action reduces suffering while maintaining compassion." }
-        ],
+        notes: [],
         analysis: {
             kantian: {
                 title: 'Kantian Perspective',
