@@ -6,7 +6,7 @@ const References = ({ isModal = false }) => {
 
     return (
         <div className={isModal ? "references-content" : "references-container"}>
-            {!isModal && <h2>References</h2>}
+            {!isModal}
             <div className="references-list">
                 <div className="reference-item">
                     <p>A Gift With Six Factors. (n.d.). In B. Sujato (Trans.), Aṅguttaranikāya (Numbered Discourses with the Buddha). SuttaCentral. Retrieved April 21, 2025, from <a href="https://suttacentral.net/an6.37/en/sujato" target="_blank" rel="noopener noreferrer">https://suttacentral.net/an6.37/en/sujato</a></p>

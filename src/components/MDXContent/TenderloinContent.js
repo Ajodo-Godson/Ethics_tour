@@ -39,15 +39,19 @@ const TenderloinContent = () => {
 
             <p>and frames charitable giving as a moral obligation. However, EA prioritizes the most cost-effective interventions that yield the greatest good with empirical evidence, rather than one-on-one giving.</p>
 
-            <p>When one-on-one giving enables harm, it becomes both ineffective and morally wrong. Since top three spending categories of panhandlers in North America includes drugs and alcohol, giving will likely fund drug addiction or criminal activity and decrease overall well-being (e.g., health, happiness, and other factors) of the beggars and the community.</p>
+            <p>When one-on-one giving enables harm, it becomes both ineffective and morally wrong. Since top three spending categories of panhandlers in North America includes drugs and alcohol <FootnoteRef id="5">
+                Bose, R., & Hwang, S. W. (2002). Income and spending patterns among panhandlers. CMAJ: Canadian Medical Association Journal, 167(5), 477. https://pmc.ncbi.nlm.nih.gov/articles/PMC121964/
+            </FootnoteRef>, giving will likely fund drug addiction or criminal activity and decrease overall well-being (e.g., health, happiness, and other factors) of the beggars and the community.</p>
 
             <h4>Buddhist ethics - Unconditional giving to benefit you and others in the interconnected world</h4>
 
             <p>While previous theories have an individualist assumption that people are independent and self-reliant, Buddhism rejects such a notion and lists it as a suffering (dukkha). It teaches that all things, including us, are impermanent and interdependent; what harms one, in some way, touches all. To live the Buddhist way of life, we should loosen our attachment to possessions and identity (since we're impermanent), and cultivate compassion and other virtues for us and others (since we're interdependent).</p>
 
-            <p>Generosity (dāna) is the first of six virtues (pāramitās), essential for cultivating compassion (karuṇā). For such practice, giving means offering something (material goods, time, energy, or wisdom), without expecting return or controlling its use. Therefore, we must give, while being mindful of your well-being, to cultivate our virtues and alleviate others' suffering.</p>
+            <p>Generosity (dāna) is the first of six virtues (pāramitās), essential for cultivating compassion (karuṇā). <FootnoteRef id="6">
+                Dānavagga (The Chapter on Giving). (n.d.). In B. Sujato (Trans.), Aṅguttaranikāya (Numbered Discourses with the Buddha). SuttaCentral. Retrieved April 21, 2025, from https://suttacentral.net/an8-danavagga
+            </FootnoteRef> For such practice, giving means offering something (material goods, time, energy, or wisdom), without expecting return or controlling its use. Therefore, we must give, while being mindful of your well-being, to cultivate our virtues and alleviate others' suffering.</p>
 
-            <p>From this perspective, giving to someone who might use your aid harmfully doesn't make the act immoral. The intention (cetana) matters the most.<FootnoteRef id="2" /> If stemming from sincere compassion and care, the act remains virtuous regardless of outcome. However, similar to Kantian prudence, Buddhism also emphasizes wisdom (prajñā). When giving risks enabling serious harm—such as worsening addiction—wiser giving might involve offering food, water, gift cards, or directing someone to supportive services.</p>
+            <p>From this perspective, giving to someone who might use your aid harmfully doesn't make the act immoral. The intention (cetana) matters the most. If stemming from sincere compassion and care, the act remains virtuous regardless of outcome. However, similar to Kantian prudence, Buddhism also emphasizes wisdom (prajñā). When giving risks enabling serious harm—such as worsening addiction—wiser giving might involve offering food, water, gift cards, or directing someone to supportive services.</p>
 
             {/* Gallery component */}
             <MDXGallery
