@@ -3,26 +3,25 @@ import React from 'react';
 const ConclusionContent = () => {
     return (
         <div className="location-content">
-            <h2>Ethical Giving in Urban Spaces: Final Reflections</h2>
+            <h2>Ethical Giving: Reflecting on Our Tour</h2>
 
-            <p>Throughout this tour of San Francisco's diverse neighborhoods, we've explored the complex ethical dimensions of giving and helping those in need. Each location has offered unique insights and challenges to our moral intuitions.</p>
+            <p>Throughout a short tour of SF, we've examined how different ethical frameworks approach giving one-on-one to strangers in need. No ethical frameworks are perfect for solving ethical complexities, and we aren't prescribing universal rules for what you should do, since ethical decisions are personal and contextual. What matters most is to approach each interaction with thoughtfulness and humaneness, and constantly reflect on what moral principles guided your actions.</p>
 
-            <h3>Key Takeaways</h3>
+            <h3>Our Personal Reflections</h3>
 
-            <p>We've examined giving through multiple ethical frameworks:</p>
-            <ul>
-                <li><strong>Kantian Ethics</strong> reminds us to respect human dignity and agency while acknowledging our duty to help others and participate in creating just institutions.</li>
-                <li><strong>Effective Altruism</strong> encourages us to maximize the positive impact of our resources by supporting evidence-based interventions that address root causes.</li>
-                <li><strong>Buddhist Perspectives</strong> guide us to balance compassion with wisdom, recognizing the interconnectedness of individual suffering with broader societal conditions.</li>
-            </ul>
-
-            <p>The ethical questions surrounding giving have no simple answers. Whether choosing direct aid, supporting systematic solutions, or finding your own balance, these frameworks provide different lenses through which to consider your actions.</p>
+            <p>For us authors, this exploration has shaped our own practices. We find Kant's idea that rationality prescribes morality too exclusionary for those fall short of his standard for rational thinking and that we have an imperfect duty to give too strict (but admirable). With EA, we've learned to think critically about our impact and to balance immediate aid with strategic support for organizations addressing root causes, though we don't subscribe to their notion of effectiveness (much of impact is not easily measured quantitatively). Buddhist ethics teaches us to see our well-being as interdependent with others and to give unconditionally with compassion and within our means. We want to give what panhandlers actually need, as long as we have available finances and preserve our well-being.</p>
 
             <h3>Moving Forward</h3>
 
-            <p>As you continue your own journey, we encourage you to remain mindful of both immediate needs and structural solutions. Every interaction is an opportunity to recognize our shared humanity while working toward more just systems.</p>
+            <p>As you navigate your own ethical decisions about giving, we encourage you to consider:</p>
 
-            <p>Thank you for exploring these ethical perspectives with us. We hope this tour has provided valuable insights for navigating the complex moral terrain of urban giving.</p>
+            <ul>
+                <li>How your actions honor the dignity and agency of those you wish to help</li>
+                <li>The balance between addressing immediate needs and supporting systemic solutions</li>
+                <li>The relationship between compassion and wisdom in your giving practices</li>
+            </ul>
+
+            <p>Thank you for joining us on this ethical exploration through San Francisco. We hope these frameworks provide valuable perspectives as you continue to engage with these complex questions.</p>
         </div>
     );
 };

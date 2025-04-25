@@ -9,6 +9,23 @@ const TenderloinContent = () => {
 
             <p>Tenderloin traditionally hosts many unhoused individuals, mentally ill patients, and drug addicts. When they ask for help, many worry they'll buy alcohol, drugs, or other harmful items. Others disagree: they aren't responsible for actions after the money changes hands. So, do we have the duty to give, if we think it might enable harm?</p>
 
+            {/* YouTube Video Embed */}
+            <div className="video-container">
+
+                <div className="responsive-video-container">
+                    <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/BuRPdmVzMAM?start=68"
+                        title="Tenderloin District Context"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen>
+                    </iframe>
+                </div>
+                <p className="video-caption">Context on giving money to homeless people</p>
+            </div>
+
             <h3>Truth About Giving Money to Homeless People</h3>
 
             <h4>Kantianism - Imperfect duty to give</h4>
