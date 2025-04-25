@@ -395,8 +395,8 @@ const StoryMap = () => {
                 onClick={toggleToc}
                 style={{
                     position: 'fixed',
-                    top: '20px',
-                    right: '20px',
+                    top: '70px',
+                    left: '20px',
                     zIndex: 1000
                 }}
             >
