@@ -170,9 +170,9 @@ const StoryMap = () => {
                 // Apply active section styling
                 section.classList.add('active-section');
 
-                // Update map view
-                if (mapInstance && locationData[index]) {
-                    const location = locationData[index];
+                // Update map view only if not a special section
+                const location = locationData[index];
+                if (mapInstance && location && !location.isSpecialSection && location.lat && location.lng) {
                     mapInstance.flyTo(
                         [location.lat, location.lng],
                         15,
@@ -217,9 +217,15 @@ const StoryMap = () => {
     useEffect(() => {
         if (mapInstance && locationData[currentLocationIndex]) {
             const location = locationData[currentLocationIndex];
-            mapInstance.flyTo([location.lat, location.lng], 15, {
-                duration: 1.5
-            });
+
+            // Only fly to location if it has coordinates
+            if (!location.isSpecialSection && location.lat && location.lng) {
+                mapInstance.flyTo(
+                    [location.lat, location.lng],
+                    15,
+                    { duration: 1.5 }
+                );
+            }
         }
     }, [currentLocationIndex, mapInstance]);
 
@@ -371,23 +377,6 @@ const StoryMap = () => {
                         </div>
                     </section>
                 ))}
-
-                {/* Conclusion section */}
-                <section className="story-section conclusion">
-                    <div className="section-content">
-                        <div className="conclusion-card">
-                            <h2>Your Journey Complete</h2>
-                            <p>
-                                You've explored ethical perspectives on giving in San Francisco.
-                                We hope this tour has provided you with new frameworks to consider
-                                when navigating complex moral questions about addressing needs in urban spaces.
-                            </p>
-                            <div className="conclusion-actions">
-                                <button onClick={() => goToLocation(0)}>Restart Tour</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </div>
 
             <button

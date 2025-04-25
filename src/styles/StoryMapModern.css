@@ -220,6 +220,8 @@ body {
     height: calc(100vh - var(--header-height));
     position: relative;
     margin-top: var(--header-height);
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 /* Fixed position sidebar that doesn't overlap content */
@@ -333,7 +335,9 @@ body {
 
 /* Story sections */
 .story-section {
-    min-height: 100vh;
+    min-height: auto;
+    height: auto;
+    padding-bottom: 40px;
     position: relative;
     scroll-snap-align: start;
     scroll-margin-top: var(--header-height);
@@ -352,13 +356,16 @@ body {
 }
 
 .section-content {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding-bottom: 40px;
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
     background-color: var(--card-background);
     border-radius: 12px;
     box-shadow: var(--shadow-lg);
-    overflow: hidden;
     position: relative;
     z-index: 2;
     backdrop-filter: blur(10px);
@@ -419,6 +426,9 @@ body {
 }
 
 .location-body {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
     padding: 2.5rem;
     position: relative;
     background-color: var(--card-background);
@@ -505,49 +515,87 @@ body {
 /* Conclusion section */
 .story-section.conclusion {
     min-height: auto;
-    padding-bottom: 60px;
-    margin-bottom: 0;
-    justify-content: flex-start;
-    padding-top: 60px;
-}
-
-.conclusion-card {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: var(--shadow-md);
-    max-width: 700px;
-    width: 100%;
-    margin: 20px auto 60px;
-    text-align: center;
-}
-
-.conclusion-card h2 {
+    padding: 80px 0;
+    background: linear-gradient(to bottom, var(--background-color), #fff);
+    border-top: none;
     margin-top: 0;
 }
 
-.conclusion-actions {
-    margin-top: 2rem;
+/* Remove box styling and make it flow naturally */
+.journey-complete-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 30px;
+    border-top: none;
+    background: none;
+    box-shadow: none;
 }
 
-.conclusion-actions button {
-    padding: 0.75rem 1.5rem;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s;
+.journey-complete-title {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    background: linear-gradient(45deg, #2980b9, #6dd5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.conclusion-actions button:hover {
-    background-color: #2980b9;
+.journey-complete-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: center;
+    color: #505a66;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Add a smooth visual transition from the last section */
+.story-section:nth-last-child(2) {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+
+/* Remove any visual separators */
+.story-section:last-of-type:not(.conclusion)::after {
+    display: none;
+}
+
+/* Add a fade-in animation for the conclusion */
+.journey-complete-container {
+    animation: fadeSmoothly 1.2s ease-out;
+}
+
+@keyframes fadeSmoothly {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add a decorative element that transitions from the last section */
+.story-section.conclusion::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 100px;
+    background: radial-gradient(ellipse at center, rgba(41, 128, 185, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: -1;
 }
 
 /* MDX content tweaks */
 .mdx-wrapper {
-    overflow-y: auto;
-    max-height: calc(100vh - 300px);
+    overflow: visible !important;
+    max-height: none !important;
     padding: 0;
     opacity: 0;
     transform: translateY(20px);
@@ -744,4 +792,58 @@ body {
     margin-top: 0;
     position: relative;
     z-index: 5;
+}
+
+/* Special styling for introduction and conclusion hero images */
+.special-section-content .story-hero {
+    height: 50vh;
+    /* Make the hero image slightly taller for these important sections */
+    position: relative;
+}
+
+.special-section-content .hero-overlay {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+}
+
+.special-section-content .hero-overlay h1 {
+    font-size: 3rem;
+}
+
+.special-section-content .hero-overlay h2 {
+    font-size: 1.8rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Remove any fixed heights on text containers */
+p,
+h1,
+h2,
+h3,
+div,
+section {
+    max-height: none;
+}
+
+/* Fix for location-content scrolling */
+.location-content {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0;
+}
+
+/* Also fix any story-content-container that might be causing issues */
+.story-content-container {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+/* Ensure images and content don't cause horizontal overflow */
+.location-content img,
+.mdx-content img {
+    max-width: 100%;
+    height: auto;
 }

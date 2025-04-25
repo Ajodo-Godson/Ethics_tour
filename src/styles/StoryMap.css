@@ -320,3 +320,38 @@
         font-size: 2rem;
     }
 }
+
+/* Styled journey complete section */
+.journey-complete-container {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 5px solid #2980b9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.journey-complete-container:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.journey-complete-title {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.journey-complete-text {
+    color: #34495e;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+/* Make sure it visually connects with sections above/below */
+.location-content+.journey-complete-container,
+.journey-complete-container+.location-content {
+    margin-top: -1rem;
+}

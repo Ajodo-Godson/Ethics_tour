@@ -9,6 +9,7 @@ import TenderloinContent from './MDXContent/TenderloinContent';
 import GroceryContent from './MDXContent/GroceryContent';
 import IntroductionContent from './MDXContent/IntroductionContent';
 import CivicContent from './MDXContent/CivicContent';
+import ConclusionContent from './MDXContent/ConclusionContent';
 
 const MDXLocation = ({ location }) => {
     console.log("MDXLocation received:", location);
@@ -29,6 +30,8 @@ const MDXLocation = ({ location }) => {
                 return <GroceryContent />;
             case 'civic':
                 return <CivicContent />;
+            case 'conclusion':
+                return <ConclusionContent />;
             default:
                 console.warn("Unknown location ID:", location.id);
                 return <div>Content not found for {location.id}</div>;

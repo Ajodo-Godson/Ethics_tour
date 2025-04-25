@@ -6,23 +6,10 @@ const locationData = [
         subtitle: 'Urban Poverty in a Wealthy City',
         description: 'Ethical dilemmas when giving might enable harm',
         centralQuestion: 'Are we morally obligated to give if our aid might enable harmful behaviors?',
-        mapCoordinates: [37.783, -122.417],
-        lat: 37.783,
-        lng: -122.417,
         color: '#2e86de',
         colorRgb: '46, 134, 222',
         heroImage: '/assets/map/sf-background.jpg',
-        images: [
-            './assets/tenderloin/Image1.webp',
-            './assets/tenderloin/Image2.webp',
-            './assets/tenderloin/Image3.jpg',
-            './assets/tenderloin/Image4.jpeg',
-            './assets/tenderloin/Image5.jpeg',
-            './assets/tenderloin/Image6.jpeg',
-            './assets/tenderloin/Image7.jpeg',
-            './assets/tenderloin/Image8.jpg'
-        ],
-        notes: [],
+        isSpecialSection: true,
         analysis: {
             kantian: {
                 title: 'Kantian Perspective',
@@ -146,6 +133,31 @@ const locationData = [
             buddhist: {
                 title: 'Buddhist View',
                 text: 'Buddhist ethics suggests that compassion must be coupled with wisdom. Individual giving addresses immediate suffering, but community action addresses the systemic causes of suffering.'
+            }
+        }
+    },
+    {
+        id: "conclusion",
+        name: 'Conclusion',
+        subtitle: 'Ethical Giving in Urban Spaces: Final Reflections',
+        description: 'Final reflections on ethical giving',
+        centralQuestion: 'How can we apply these ethical frameworks in our daily lives?',
+        color: "#8e44ad",
+        colorRgb: "142, 68, 173",
+        heroImage: '/assets/map/conclusion.jpg',
+        isSpecialSection: true,
+        analysis: {
+            kantian: {
+                title: 'Kantian Perspective',
+                text: 'Throughout our journey, we\'ve seen Kant\'s emphasis on human dignity, autonomy and imperfect duties which must be balanced with civic responsibility.'
+            },
+            utilitarian: {
+                title: 'Utilitarian Approach',
+                text: 'Effective altruism has shown us the importance of maximizing the impact of our resources, directing them where they can do the most good.'
+            },
+            buddhist: {
+                title: 'Buddhist View',
+                text: 'Buddhist ethics has reminded us to balance compassion with wisdom, seeing the interconnected nature of suffering and its causes.'
             }
         }
     }
