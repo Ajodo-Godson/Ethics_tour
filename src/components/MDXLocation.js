@@ -7,18 +7,8 @@ import { MDXProvider } from '@mdx-js/react';
 // Import React components - we'll prioritize these
 import TenderloinContent from './MDXContent/TenderloinContent';
 import GroceryContent from './MDXContent/GroceryContent';
-// Remove unused CivicContent import
 import IntroductionContent from './MDXContent/IntroductionContent';
-// Import will be uncommented when component is ready
-// import CivicContent from './MDXContent/CivicContent';
-
-// Remove this unused variable
-// const MDXComponents = {
-//     tenderloin: TenderloinContent,
-//     grocery: GroceryContent,
-//     civic: CivicContent,
-//     introduction: IntroductionContent
-// };
+import CivicContent from './MDXContent/CivicContent';
 
 const MDXLocation = ({ location }) => {
     console.log("MDXLocation received:", location);
@@ -37,9 +27,8 @@ const MDXLocation = ({ location }) => {
                 return <TenderloinContent />;
             case 'grocery':
                 return <GroceryContent />;
-            // Uncomment when CivicContent is ready
-            // case 'civic':
-            //     return <CivicContent />;
+            case 'civic':
+                return <CivicContent />;
             default:
                 console.warn("Unknown location ID:", location.id);
                 return <div>Content not found for {location.id}</div>;
