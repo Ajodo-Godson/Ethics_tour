@@ -120,3 +120,40 @@
         right: 20px;
     }
 }
+
+/* Clean TOC design based on ArcGIS example */
+.toc-container {
+    padding: 1.5rem;
+}
+
+.toc-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.toc-location {
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    padding-left: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.toc-location.active {
+    border-left-color: var(--location-color, #2980b9);
+    background-color: rgba(240, 240, 240, 0.5);
+}
+
+.toc-location-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+}
+
+.toc-location-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+}

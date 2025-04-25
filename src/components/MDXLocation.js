@@ -1,9 +1,10 @@
 import React from 'react';
+import { MDXProvider } from '@mdx-js/react';
 // Remove these unused imports
 // import LoadingSpinner from './LoadingSpinner';
 // import MDXGallery from './MDXGallery';
 
-// Import the MDX content files directly
+// Import React components - we'll prioritize these
 import TenderloinContent from './MDXContent/TenderloinContent';
 import GroceryContent from './MDXContent/GroceryContent';
 import CivicContent from './MDXContent/CivicContent';
@@ -26,46 +27,35 @@ const MDXLocation = ({ location }) => {
         return <div>No location data</div>;
     }
 
-    // Direct component mapping for all possible location IDs
-    if (location.id === "introduction") {
-        return (
-            <div className="location-content mdx-content">
-                <IntroductionContent />
-            </div>
-        );
-    }
+    // Use direct component mapping instead of MDX files
+    const getMDXContent = () => {
+        switch (location.id) {
+            case 'tenderloin':
+            case 0:
+            case '0':
+                return <TenderloinContent />;
+            case 'grocery':
+            case 2:
+            case '2':
+                return <GroceryContent />;
+            case 'civic':
+            case 1:
+            case '1':
+                return <CivicContent />;
+            case 'introduction':
+                return <IntroductionContent />;
+            default:
+                console.warn("Unknown location ID:", location.id);
+                return <div>Unknown location: {location.id}</div>;
+        }
+    };
 
-    // For numbered location IDs (0, 1, 2)
-    if (location.id === 0 || location.id === '0') {
-        return (
-            <div className="location-content mdx-content">
-                <TenderloinContent />
-            </div>
-        );
-    }
-
-    if (location.id === 1 || location.id === '1') {
-        return (
-            <div className="location-content mdx-content">
-                <CivicContent />
-            </div>
-        );
-    }
-
-    if (location.id === 2 || location.id === '2') {
-        return (
-            <div className="location-content mdx-content">
-                <GroceryContent />
-            </div>
-        );
-    }
-
-    // Fallback for any other ID
-    console.warn("Unknown location ID:", location.id);
     return (
-        <div className="location-content mdx-content">
-            <IntroductionContent />
-        </div>
+        <MDXProvider>
+            <div className="mdx-content">
+                {getMDXContent()}
+            </div>
+        </MDXProvider>
     );
 };
 

@@ -16,7 +16,7 @@ const Location = ({ location, isActive }) => {
                 />
                 <div className="hero-overlay">
                     <h1>{location.name}</h1>
-                    <h2>{location.centralQuestion}</h2>
+                    <h2>{location.subtitle}</h2>
                 </div>
             </div>
 
@@ -35,9 +35,7 @@ const Location = ({ location, isActive }) => {
                 )}
 
                 {/* MDX Content */}
-                <div className="content-wrapper">
-                    <MDXLocation location={location} />
-                </div>
+                <MDXLocation location={location} />
 
                 {/* Framework sections in cards */}
                 {location.analysis && (

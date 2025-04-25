@@ -203,9 +203,9 @@ const StoryMap = () => {
         });
     }, [mapInstance]);
 
-    const toggleToc = useCallback(() => {
-        setShowToc(prev => !prev);
-    }, []);
+    const toggleToc = () => {
+        setShowToc(!showToc);
+    };
 
     // Use the map instance if needed
     useEffect(() => {
@@ -379,7 +379,7 @@ const StoryMap = () => {
                 </section>
             </div>
 
-            <div className={`table-of-contents ${showToc ? 'visible' : ''}`}>
+            <div className={`table-of-contents ${showToc ? 'visible' : 'hidden'}`}>
                 <TableOfContents
                     locations={locationData}
                     currentIndex={currentLocationIndex}
