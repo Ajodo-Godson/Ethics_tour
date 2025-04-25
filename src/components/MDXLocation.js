@@ -10,14 +10,13 @@ import GroceryContent from './MDXContent/GroceryContent';
 import CivicContent from './MDXContent/CivicContent';
 import IntroductionContent from './MDXContent/IntroductionContent';
 
-// Fix the component mapping to ensure exact key matching
-const MDXComponents = {
-    tenderloin: TenderloinContent,
-    grocery: GroceryContent,
-    civic: CivicContent,
-    // Make sure this key matches exactly what's used in your locationData
-    introduction: IntroductionContent
-};
+// Remove this unused variable
+// const MDXComponents = {
+//     tenderloin: TenderloinContent,
+//     grocery: GroceryContent,
+//     civic: CivicContent,
+//     introduction: IntroductionContent
+// };
 
 const MDXLocation = ({ location }) => {
     console.log("MDXLocation received:", location);

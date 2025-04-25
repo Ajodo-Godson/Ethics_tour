@@ -1,6 +1,6 @@
 import React from 'react';
 import MDXGallery from '../MDXGallery';
-import { FootnoteRef, Footnote, FootnotesSection } from './Footnote';
+import { Footnote, FootnotesSection } from './Footnote';
 
 const GroceryContent = () => {
     return (

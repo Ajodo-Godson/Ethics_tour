@@ -24,9 +24,10 @@ const StoryMap = () => {
     const [mapInstance, setMapInstance] = useState(null);
     const [sectionProgress, setSectionProgress] = useState(0);
     const [showMap, setShowMap] = useState(false);
-    const [isTransitioning, setIsTransitioning] = useState(false);
-    const [disableScrollDetection, setDisableScrollDetection] = useState(false);
+    const [disableScrollDetection] = useState(false);
     const [showToc, setShowToc] = useState(true);
+    // eslint-disable-next-line no-unused-vars
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     const sectionRefs = useRef(locationData.map(() => React.createRef()));
 
@@ -57,6 +58,9 @@ const StoryMap = () => {
         let scrollTimeout;
 
         const handleScroll = () => {
+            // Skip scroll handling during transitions
+            if (isTransitioning) return;
+
             // Clear previous timeout
             if (scrollTimeout) clearTimeout(scrollTimeout);
 
@@ -142,7 +146,7 @@ const StoryMap = () => {
             window.removeEventListener('wheel', handleScroll);
             if (scrollTimeout) clearTimeout(scrollTimeout);
         };
-    }, [currentLocationIndex, disableScrollDetection]);
+    }, [currentLocationIndex, disableScrollDetection, isTransitioning]);
 
     // Navigation functions - updated for better control
     const goToLocation = useCallback((index) => {
@@ -161,7 +165,6 @@ const StoryMap = () => {
             // Reset transition state after animation completes
             setTimeout(() => {
                 setIsTransitioning(false);
-
                 // Apply active section styling
                 section.classList.add('active-section');
 
@@ -176,7 +179,7 @@ const StoryMap = () => {
                 }
             }, 1000);
         }
-    }, [isTransitioning, mapInstance]);
+    }, [mapInstance]);
 
     const goToNextLocation = useCallback(() => {
         if (currentLocationIndex < locationData.length - 1) {
@@ -320,7 +323,7 @@ const StoryMap = () => {
     }, [currentLocationIndex]);
 
     return (
-        <div className="storymap-modern-container">
+        <div className={`storymap-modern-container ${isTransitioning ? 'is-transitioning' : ''}`}>
             <div className={`map-sidebar ${showMap ? 'visible' : 'hidden'}`}>
                 <TourMap
                     activeLocation={currentLocationIndex}
