@@ -112,7 +112,7 @@ function App() {
               <div className="cover-content">
                 <h1>Ethics Tour</h1>
                 <h2>Resources for the Needy in San Francisco</h2>
-                <p>A journey exploring ethical perspectives on giving to strangers in need</p>
+                <p className="intro-tagline">A journey exploring ethical perspectives on giving to strangers in need</p>
                 <button className="start-journey-btn" onClick={startJourney}>
                   Begin the Tour ↓
                 </button>
