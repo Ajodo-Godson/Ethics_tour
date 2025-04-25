@@ -1,12 +1,15 @@
 import React from 'react';
 import MDXGallery from '../MDXGallery';
+import { FootnoteRef } from '../Footnote';
 
 const CivicContent = () => {
     return (
         <div className="location-content">
             <h2>Civic Center Plaza: Does private charity weaken collective responsibility of addressing relevant issues, such as homelessness and substance usage?</h2>
 
-            <p>The plaza is a public, civic place known for community gatherings, celebrations, and democratic engagement. It's also where the gap between individual charity and systemic responsibility becomes more visible. Do our individual acts of giving inadvertently weaken our commitment to collective solutions, considering panhandling is caused primarily by poverty, lack of adequate affordable housing, lack of healthcare, prejudice against race, mental illnesses, disabilities, and LGBTQIA+, or a combination of systemic and personal factors?</p>
+            <p>The plaza is a public, civic place known for community gatherings, celebrations, and democratic engagement. It's also where the gap between individual charity and systemic responsibility becomes more visible. Do our individual acts of giving inadvertently weaken our commitment to collective solutions, considering panhandling is caused primarily by poverty, lack of adequate affordable housing, <FootnoteRef id="7">
+                People of color, those identify as LGBTQIA+, and those with disabilities are disproportionately affected to be unhoused. Aside homeless adults, approximately 4.2 million underage people in the United States experience homelessness annually. Family conflict, domestic violence, and abuse are major drivers.
+            </FootnoteRef> lack of healthcare, prejudice against race, mental illnesses, disabilities, and LGBTQIA+, or a combination of systemic and personal factors?</p>
 
             <h3>Kant: Imperfect Duty to Give vs. Civic Duty</h3>
             <p>While Kant recognizes individuals' imperfect duty to give, he also emphasizes our duty to participate in establishing and maintaining just institutions (e.g., through voting and paying taxes). As hinted in the Tenderloin section, it is a systemic failure when begging is the only option for some, and the responsibilities mainly fail on social structures that render these inequalities. Private giving cannot and shouldn't replace nor undermine the systemic responsibility to uphold social justice. We should strive for a society where begging and individual giving become unnecessary.</p>
@@ -15,7 +18,7 @@ const CivicContent = () => {
             <p>EA holds a similar worry for different reasons. Not only is individual giving less effective than supporting proven interventions and organizations, but it can also divert attention and resources from structural solutions to address root causes. While you can give one-on-one, you must direct more efforts or resources toward effective interventions: affordable housing initiatives, mental health services, addiction treatment programs, and basic income guarantees. Otherwise, you risk decreasing the total utility by temporarily alleviating symptoms while leaving causes untreated or even enabling harm.</p>
 
             <h3>Buddhist Perspective: Compassion and Systemic Change</h3>
-            <p>Buddhist ethics emphasizes that true compassion extends beyond individual acts of charity to addressing the roots of suffering. The principle of interdependence suggests we're all connected within social systems that either alleviate or perpetuate suffering. While immediate aid offers temporary relief, transforming systems of inequality manifests a deeper, more complete expression of compassion. This balanced approach honors both immediate needs and the imperative for structural change.</p>
+            <p>The Buddhist perspective encourages engaging compassionately at all levels, from individual giving to community support to structural reforms, since they are all interconnected. The dependent origination reminds us that homelessness arises from complex conditions that require multifaceted responses. This holistic understanding acknowledges both the immediate suffering that demands our compassion and the systemic issues that perpetuate cycles of poverty and homelessness.</p>
 
             {/* Gallery component */}
             <MDXGallery
