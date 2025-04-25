@@ -684,6 +684,19 @@ body {
         right: 20px;
         border-radius: 4px 4px 0 0;
     }
+
+    .location-content {
+        padding: 0 1.5rem !important;
+    }
+
+    .story-content-container {
+        padding: 1.5rem !important;
+    }
+
+    /* Ensure proper spacing in special sections */
+    .special-section-content .story-content-container {
+        padding: 1.5rem !important;
+    }
 }
 
 @media (max-width: 600px) {
@@ -906,4 +919,69 @@ section {
     border-radius: 8px;
     backdrop-filter: blur(5px);
     display: inline-block;
+}
+
+/* Mobile-friendly footnotes */
+@media (max-width: 768px) {
+
+    /* Convert sidenotes to bottom notes on mobile */
+    .footnote-ref {
+        cursor: pointer;
+        color: var(--primary-color);
+        font-weight: 600;
+        text-decoration: none;
+        position: relative;
+        border-bottom: 1px dotted var(--primary-color);
+    }
+
+    .sidenote {
+        position: static !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 1.5rem 0 !important;
+        padding: 1rem !important;
+        background-color: rgba(0, 0, 0, 0.05) !important;
+        border-left: 3px solid var(--primary-color) !important;
+        font-size: 0.9rem !important;
+        transform: none !important;
+        border-radius: 0 4px 4px 0 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Make footnotes visible by default on mobile */
+    .footnote-content {
+        display: block !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Fix overall mobile layout */
+@media (max-width: 768px) {
+
+    /* Make content area full width */
+    .story-sections {
+        width: 100% !important;
+    }
+
+    /* Better spacing for section content */
+    .section-content {
+        margin: 0 !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Ensure text is readable size */
+    .location-content p {
+        font-size: 1rem !important;
+        line-height: 1.6 !important;
+    }
+
+    /* Improved heading sizes */
+    .location-content h2 {
+        font-size: 1.8rem !important;
+    }
+
+    .location-content h3 {
+        font-size: 1.4rem !important;
+    }
 }
