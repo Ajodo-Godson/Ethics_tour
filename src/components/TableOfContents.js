@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TableOfContents = ({ locations, currentIndex, onNavigate }) => {
+const TableOfContents = ({ locations, currentIndex, onNavigate, onShowReferences }) => {
     return (
         <div style={{ padding: '15px' }}>
             <h3 style={{
@@ -40,6 +40,32 @@ const TableOfContents = ({ locations, currentIndex, onNavigate }) => {
                         </button>
                     </li>
                 ))}
+
+                {/* References link at the bottom */}
+                <li style={{
+                    marginTop: '15px',
+                    borderTop: '1px solid #eee',
+                    paddingTop: '10px',
+                    paddingLeft: '8px'
+                }}>
+                    <button
+                        onClick={onShowReferences}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#666',
+                            padding: '5px 0',
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '100%',
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                            fontSize: '14px'
+                        }}
+                    >
+                        <span style={{ marginRight: '5px' }}>📚</span> References
+                    </button>
+                </li>
             </ul>
         </div>
     );

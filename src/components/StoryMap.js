@@ -8,6 +8,7 @@ import TourMap from './TourMap';
 import Location from './Location';
 import locationData from '../data/locationData';
 import TableOfContents from './TableOfContents';
+import References from './References';
 
 // Fix for default marker icons in Leaflet with webpack
 delete L.Icon.Default.prototype._getIconUrl;
@@ -28,6 +29,7 @@ const StoryMap = () => {
     const [showToc, setShowToc] = useState(true);
     // eslint-disable-next-line no-unused-vars
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [showReferencesModal, setShowReferencesModal] = useState(false);
 
     const sectionRefs = useRef(locationData.map(() => React.createRef()));
 
@@ -419,8 +421,60 @@ const StoryMap = () => {
                     locations={locationData}
                     currentIndex={currentLocationIndex}
                     onNavigate={goToLocation}
+                    onShowReferences={() => setShowReferencesModal(true)}
                 />
             </div>
+
+            {showReferencesModal && (
+                <div
+                    className="modal-overlay"
+                    onClick={() => setShowReferencesModal(false)}
+                    style={{
+                        position: 'fixed',
+                        top: 0, left: 0, right: 0, bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 2000
+                    }}
+                >
+                    <div
+                        className="references-modal"
+                        onClick={e => e.stopPropagation()}
+                        style={{
+                            backgroundColor: 'white',
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                            width: '500px',
+                            maxWidth: '90%',
+                            maxHeight: '80vh',
+                            overflowY: 'auto',
+                            padding: '20px',
+                            position: 'relative'
+                        }}
+                    >
+                        <button
+                            onClick={() => setShowReferencesModal(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '10px',
+                                right: '10px',
+                                background: 'none',
+                                border: 'none',
+                                fontSize: '20px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            ×
+                        </button>
+                        <h2 style={{ marginTop: '0', fontSize: '20px' }}>References</h2>
+                        <div style={{ fontSize: '14px' }}>
+                            <References />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
