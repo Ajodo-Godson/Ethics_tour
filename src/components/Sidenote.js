@@ -10,7 +10,7 @@ import '../styles/Sidenote.css';
  */
 const Sidenote = ({ children, id, label }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const noteId = id || Math.random().toString(36).substr(2, 9);
+    const noteId = id || (window.crypto.getRandomValues(new Uint32Array(1))[0].toString(36));
     const noteLabel = label || noteId.slice(0, 2);
 
     const toggleExpanded = () => {
